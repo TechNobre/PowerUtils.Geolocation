@@ -26,13 +26,21 @@ Library to work with geographic coordinates
   - [DistanceUnit](#Types.DistanceUnit)
   - [GeographicalOrientation](#Types.GeographicalOrientation)
 - [Extensions](#Extensions)
-  - [.FromKilometerTo()](#Extensions.FromKilometerTo)
-  - [.FromMeterTo()](#Extensions.FromMeterTo)
-  - [.FromMileTo()](#Extensions.FromMileTo)
-  - [.GetGeographicalOrientation()](#Extensions.GetGeographicalOrientation)
-  - [.ToRadian()](#Extensions.ToRadian)
-  - [.ToDegree()](#Extensions.ToDegree)
-  - [.ToDDPoint()](#Extensions.ToDDPoint)
+  - [LengthConversionExtensions](#Extensions.LengthConversionExtensions)
+    - [.FromKilometerToMeter()](#Extensions.FromKilometerToMeter)
+    - [.FromKilometerToMile()](#Extensions.FromKilometerToMile)
+    - [.FromKilometerTo()](#Extensions.FromKilometerTo)
+    - [.FromMeterToKilometer()](#Extensions.FromMeterToKilometer)
+    - [.FromMeterToMile()](#Extensions.FromMeterToMile)
+    - [.FromMeterTo()](#Extensions.FromMeterTo)
+    - [.FromMileToMeter()](#Extensions.FromMileToMeter)
+    - [.FromMileToKilometer()](#Extensions.FromMileToKilometer)
+    - [.FromMileTo()](#Extensions.FromMileTo)
+  - [ConversionExtensions](#Extensions.ConversionExtensions)
+    - [.GetGeographicalOrientation()](#Extensions.GetGeographicalOrientation)
+    - [.ToRadian()](#Extensions.ToRadian)
+    - [.ToDegree()](#Extensions.ToDegree)
+    - [.ToDDPoint()](#Extensions.ToDDPoint)
 - [Objects](#Objects)
   - [GeoDDCoordinate](#Objects.GeoDDCoordinate)
     - [Deconstruct](#Objects.GeoDDCoordinate.Deconstruct)
@@ -125,8 +133,30 @@ public enum GeographicalOrientation
 
 
 
+
 ### Extensions <a name="Extensions"></a>
 `namespace PowerUtils.Geolocation`
+
+
+#### LengthConversionExtensions <a name="Extensions.LengthConversionExtensions"></a>
+
+
+#### .FromKilometerToMeter() <a name="Extensions.FromKilometerToMeter"></a>
+Convert kilometers to meters (int, uint, long, ulong, float, double, decimal)
+
+```csharp
+// result = 45_000
+var result = 45.FromKilometerToMeter();
+```
+
+
+#### .FromKilometerToMile() <a name="Extensions.FromKilometerToMile"></a>
+Convert kilometers to miles (float, double, decimal)
+
+```csharp
+// result = 137.472_122
+var result = (221.24).FromKilometerToMile();
+```
 
 
 #### .FromKilometerTo() <a name="Extensions.FromKilometerTo"></a>
@@ -135,6 +165,24 @@ Converting (double, decimal, float) numbers in kilometers to a new unit
 ```csharp
 // result = 20_000
 var result = 20.FromKilometerTo(DistanceUnit.Meter);
+```
+
+
+#### .FromMeterToKilometer() <a name="Extensions.FromMeterToKilometer"></a>
+Convert meters to kilometers (int, uint, long, ulong, float, double, decimal)
+
+```csharp
+// result = 45
+var result = (45_000).FromMeterToKilometer();
+```
+
+
+#### .FromMeterToMile() <a name="Extensions.FromMeterToMile"></a>
+Convert meters to kilometers (float, double, decimal)
+
+```csharp
+// result = 7.098204899547
+var result = (11_423.457).FromMeterToMile();
 ```
 
 
@@ -147,6 +195,24 @@ var result = 2.FromMeterTo(DistanceUnit.kilometer);
 ```
 
 
+#### .FromMileToMeter() <a name="Extensions.FromMileToMeter"></a>
+Convert miles to meters (float, double, decimal)
+
+```csharp
+// result = 356_050.3816
+var result = (221.24).FromMileToMeter();
+```
+
+
+#### .FromMileToKilometer() <a name="Extensions.FromMileToKilometer"></a>
+Convert miles to kilometers (float, double, decimal)
+
+```csharp
+// result = 356.05038160000004
+var result = (221.24).FromMileToKilometer();
+```
+
+
 #### .FromMileTo() <a name="Extensions.FromMileTo"></a>
 Converting (double, decimal, float) numbers in miles to a new unit
 
@@ -156,7 +222,11 @@ var result = 2.FromMileTo(DistanceUnit.kilometer);
 ```
 
 
-#### .GetGeographicalOrientation() <a name="Extensions.GetGeographicalOrientation"></a>
+
+#### ConversionExtensions <a name="Extensions.ConversionExtensions"></a>
+
+
+##### .GetGeographicalOrientation() <a name="Extensions.GetGeographicalOrientation"></a>
 Get the geographical orientation from a specific cardinal direction
 
 ```csharp
@@ -165,7 +235,7 @@ var result = CardinalDirection.North.GetGeographicalOrientation();
 ```
 
 
-#### .ToRadian() <a name="Extensions.ToRadian"></a>
+##### .ToRadian() <a name="Extensions.ToRadian"></a>
 Convert degree to radian (PI / 180)
 
 ```csharp
@@ -174,7 +244,7 @@ var result = 11.ToRadian();
 ```
 
 
-#### .ToDegree() <a name="Extensions.ToDegree"></a>
+##### .ToDegree() <a name="Extensions.ToDegree"></a>
 Convert radian to degree (180 / PI)
 
 ```csharp
@@ -183,7 +253,7 @@ var result = (0.19198621771937624).ToDegree();
 ```
 
 
-#### .ToDegree() <a name="Extensions.ToDegree"></a>
+##### .ToDegree() <a name="Extensions.ToDegree"></a>
 Convert radian to degree (180 / PI)
 
 ```csharp
@@ -192,7 +262,7 @@ var result = (0.19198621771937624).ToDegree();
 ```
 
 
-#### .ToDDPoint() <a name="Extensions.ToDDPoint"></a>
+##### .ToDDPoint() <a name="Extensions.ToDDPoint"></a>
 Convert decimal degree point (string) to decimal degree point (double)
 
 ```csharp
@@ -347,6 +417,18 @@ var longitude = GuardGeolocation.Against.Longitude(degree);
 
 
 ## Release Notes
+
+
+### v1.1.0 - 2022/01/29
+
+#### New features
+- Added new extension `.FromKilometerToMeter()`;
+- Added new extension `.FromKilometerToMile()`;
+- Added new extension `.FromMeterToKilometer()`;
+- Added new extension `.FromMeterToMile()`;
+- Added new extension `.FromMileToMeter()`;
+- Added new extension `.FromMileToKilometer()`;
+
 
 
 ### v1.0.0 - 2022/01/28

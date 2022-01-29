@@ -13,7 +13,7 @@
     <PackageId>PowerUtils.Geolocation</PackageId>
     <title>PowerUtils.Geolocation</title>
     <Product>PowerUtils.Geolocation</Product>
-    <Version>1.0.0</Version>
+    <Version>1.1.0</Version>
 
     <Authors>Nelson Nobre</Authors>
     <Company>TechNobre</Company>
@@ -24,7 +24,12 @@
 
     <Description>Library to work with geographic coordinates</Description>
     <PackageReleaseNotes>
-      Start project
+      Added new extension .FromKilometerToMeter()
+      Added new extension .FromKilometerToMile()
+      Added new extension .FromMeterToKilometer()
+      Added new extension .FromMeterToMile()
+      Added new extension .FromMileToMeter()
+      Added new extension .FromMileToKilometer()
     </PackageReleaseNotes>
     <Summary>Library to work with geographic coordinates</Summary>
     <PackageTags>PowerUtils;Utils;Helpers;Geographic Coordinates;Geolocation;Location;Extensions;Coordinates</PackageTags>
