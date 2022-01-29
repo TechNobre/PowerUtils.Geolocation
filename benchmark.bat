@@ -1,2 +1,0 @@
-dotnet build -c Release ./tests/PowerUtils.Geolocation.Benchmarks/PowerUtils.Geolocation.Benchmarks.csproj 
-dotnet run -p ./tests/PowerUtils.Geolocation.Benchmarks/PowerUtils.Geolocation.Benchmarks.csproj -c Release 
