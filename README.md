@@ -7,7 +7,7 @@ Library to work with geographic coordinates
 
 [![NuGet](https://img.shields.io/nuget/v/PowerUtils.Geolocation.svg)](https://www.nuget.org/packages/PowerUtils.Geolocation)
 [![Nuget](https://img.shields.io/nuget/dt/PowerUtils.Geolocation.svg)](https://www.nuget.org/packages/PowerUtils.Geolocation)
-[![License: MIT](https://img.shields.io/github/license/ofpinewood/http-exceptions.svg)](https://github.com/TechNobre/PowerUtils.Geolocation/blob/main/LICENSE)
+[![License: MIT](https://img.shields.io/github/license/TechNobre/PowerUtils.Geolocation.svg)](https://github.com/TechNobre/PowerUtils.Geolocation/blob/main/LICENSE)
 
 
 
