@@ -7,26 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PowerUtils.Geolocation.Test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PowerUtils.Geolocation", "src\PowerUtils.Geolocation.csproj", "{67B47AA4-5F1B-40A8-83CD-EEB411AACFE8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.project", "1.project", "{3157598C-7FE3-4997-A24E-EE53855B7AAB}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-		.gitignore = .gitignore
-		global.json = global.json
-		LICENSE = LICENSE
-		README.md = README.md
-	EndProjectSection
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.src", "1.src", "{1A2AA11A-4926-4F24-8640-9BA95A2E7C5B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.cicd", "2.cicd", "{A395E9D9-E52D-4ED2-A958-B40207794790}"
-	ProjectSection(SolutionItems) = preProject
-		.github\dependabot.yml = .github\dependabot.yml
-		.github\workflows\publish-nuget.yml = .github\workflows\publish-nuget.yml
-		.github\workflows\sonarcloud.yml = .github\workflows\sonarcloud.yml
-		.github\workflows\test-project.yml = .github\workflows\test-project.yml
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.src", "3.src", "{1A2AA11A-4926-4F24-8640-9BA95A2E7C5B}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.tests", "4.tests", "{D4D983BE-ABCB-416F-BA97-5D7F9B68F946}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.tests", "2.tests", "{D4D983BE-ABCB-416F-BA97-5D7F9B68F946}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
