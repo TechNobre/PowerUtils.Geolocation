@@ -1,5 +1,8 @@
 # PowerUtils.Geolocation
-Library to work with geographic coordinates
+
+![Logo](https://raw.githubusercontent.com/TechNobre/PowerUtils.Geolocation/main/assets/logo/logo_128x128.png)
+
+***Library to work with geographic coordinates***
 
 ![Tests](https://github.com/TechNobre/PowerUtils.Geolocation/actions/workflows/test-project.yml/badge.svg)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=TechNobre_PowerUtils.Geolocation&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=TechNobre_PowerUtils.Geolocation)
