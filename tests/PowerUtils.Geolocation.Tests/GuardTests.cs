@@ -1,10 +1,9 @@
 ﻿namespace PowerUtils.Geolocation.Tests;
 
-[Trait("Type", "Guard")]
 public class GuardTests
 {
-    [Fact(DisplayName = "Throw an 'MinLatitudeException' when the degree is small")]
-    public void Latitude_Small_MinLatitudeException()
+    [Fact]
+    public void Small_AgainstLatitude_MinLatitudeException()
     {
         // Arrange
         var degree = -180.1;
@@ -18,8 +17,8 @@ public class GuardTests
             .BeOfType<MinLatitudeException>();
     }
 
-    [Fact(DisplayName = "Throw an 'MaxLatitudeException' when the degree is large")]
-    public void Latitude_Large_MaxLatitudeException()
+    [Fact]
+    public void Large_AgainstLatitude_MaxLatitudeException()
     {
         // Arrange
         var degree = 180.1;
@@ -33,8 +32,8 @@ public class GuardTests
             .BeOfType<MaxLatitudeException>();
     }
 
-    [Fact(DisplayName = "Validate latitude with valid degree - Should return the degree")]
-    public void Latitude_Valid_NotException()
+    [Fact]
+    public void Valid_AgainstLatitude_NotException()
     {
         // Arrange
         var degree = 18.1;
@@ -48,10 +47,8 @@ public class GuardTests
             .Be(degree);
     }
 
-
-
-    [Fact(DisplayName = "Throw an 'MinLongitudeException' when the degree is small")]
-    public void Longitude_Small_MinLongitudeException()
+    [Fact]
+    public void SmallLongitude_AgainstLongitude_MinLongitudeException()
     {
         // Arrange
         var degree = -180.1;
@@ -65,8 +62,8 @@ public class GuardTests
             .BeOfType<MinLongitudeException>();
     }
 
-    [Fact(DisplayName = "Throw an 'MaxLongitudeException' when the degree is large")]
-    public void Longitude_Large_MaxLongitudeException()
+    [Fact]
+    public void LargeLongitude_AgainstLongitude_MaxLongitudeException()
     {
         // Arrange
         var degree = 180.1;
@@ -80,8 +77,8 @@ public class GuardTests
             .BeOfType<MaxLongitudeException>();
     }
 
-    [Fact(DisplayName = "Validate longitude with valid degree - Should return the degree")]
-    public void Longitude_Valid_NotException()
+    [Fact]
+    public void ValidLongitude_AgainstLongitude_NotException()
     {
         // Arrange
         var degree = 18.1;
