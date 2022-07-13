@@ -1,10 +1,10 @@
 ﻿using System;
 using PowerUtils.Geolocation.Exceptions;
 
-#if NET462 || NET48 || NETSTANDARD2_0 || NETSTANDARD2_1
-using Newtonsoft.Json;
-#else
+#if NETCOREAPP3_1_OR_GREATER
 using System.Text.Json.Serialization;
+#else
+using Newtonsoft.Json;
 #endif
 
 namespace PowerUtils.Geolocation
@@ -267,8 +267,8 @@ namespace PowerUtils.Geolocation
 
             // Intermediate result a.
             var step1 = Math.Pow(Math.Sin(deltaLatitude / 2.0), 2.0) +
-                        Math.Cos(latitude1Radian) * Math.Cos(latitude2Radian) *
-                        Math.Pow(Math.Sin(deltaLongitude / 2.0), 2.0);
+                        (Math.Cos(latitude1Radian) * Math.Cos(latitude2Radian) *
+                        Math.Pow(Math.Sin(deltaLongitude / 2.0), 2.0));
 
 
             // Intermediate result c (great circle distance in Radians)
