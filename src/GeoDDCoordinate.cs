@@ -46,7 +46,7 @@ namespace PowerUtils.Geolocation
         /// <param name="latitude"></param>
         /// <param name="longitude"></param>
         public void Deconstruct(out double latitude, out double longitude)
-        { // DONE
+        {
             latitude = Latitude;
             longitude = Longitude;
         }
@@ -115,7 +115,7 @@ namespace PowerUtils.Geolocation
             => coordinate.ToString();
 
         public static implicit operator GeoDDCoordinate(string coordinate)
-            => GeoDDCoordinate.Parse(coordinate);
+            => Parse(coordinate);
         #endregion
 
 
@@ -194,7 +194,7 @@ namespace PowerUtils.Geolocation
         {
             try
             {
-                result = GeoDDCoordinate.Parse(latitude, longitude);
+                result = Parse(latitude, longitude);
 
                 return true;
             }
@@ -216,7 +216,7 @@ namespace PowerUtils.Geolocation
         {
             try
             {
-                result = GeoDDCoordinate.Parse(coordinate);
+                result = Parse(coordinate);
 
                 return true;
             }
