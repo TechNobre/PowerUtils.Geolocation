@@ -2,11 +2,10 @@
 
 namespace PowerUtils.Geolocation.Tests;
 
-[Trait("Category", "GeoDDCoordinate")]
 public class GeoDDCoordinateTests
 {
-    [Fact(DisplayName = "Create the GeoDDCoordinate - Should create object")]
-    public void Constructor_ValidLatitudeLongitude_Create()
+    [Fact]
+    public void ValidLatitudeLongitude_Constructor_Create()
     {
         // Arrange
         var latitude = 81.54;
@@ -30,8 +29,8 @@ public class GeoDDCoordinateTests
                 .Be(longitude);
     }
 
-    [Fact(DisplayName = "Parse latitude longitude from strings - Should create object")]
-    public void Parse_LatitudeLongitudeString_GeoDDCoordinate()
+    [Fact]
+    public void LatitudeLongitudeString_Parse_GeoDDCoordinate()
     {
         // Arrange
         var latitude = "81.54";
@@ -52,8 +51,8 @@ public class GeoDDCoordinateTests
                 .Be(-54.1272);
     }
 
-    [Fact(DisplayName = "Parse DD coordinate from strings with null latitude - Should return an 'ArgumentNullException'")]
-    public void Parse_NullLatitude_ArgumentNullException()
+    [Fact]
+    public void NullLatitude_Parse_ArgumentNullException()
     {
         // Arrange & Act
         var act = Record.Exception(() => GeoDDCoordinate.Parse(null, "12.442"));
@@ -66,8 +65,8 @@ public class GeoDDCoordinateTests
                 .Be("ddPoint");
     }
 
-    [Fact(DisplayName = "Parse DD coordinate from strings with null longitude - Should return an 'ArgumentNullException'")]
-    public void Parse_NullLongitude_ArgumentNullException()
+    [Fact]
+    public void NullLongitude_Parse_ArgumentNullException()
     {
         // Arrange & Act
         var act = Record.Exception(() => GeoDDCoordinate.Parse("12.442", null));
@@ -80,8 +79,8 @@ public class GeoDDCoordinateTests
                 .Be("ddPoint");
     }
 
-    [Fact(DisplayName = "Try a GeoDDCoordinate with a small latitude - Should return a 'MinLatitudeException'")]
-    public void Latitude_Small_MinLatitudeException()
+    [Fact]
+    public void SmallLatitude_CreateGeoDDCoordinate_MinLatitudeException()
     {
         // Arrange & Act
         var act = Record.Exception(() => new GeoDDCoordinate(-90.1, 12));
@@ -92,8 +91,8 @@ public class GeoDDCoordinateTests
             .BeOfType<MinLatitudeException>();
     }
 
-    [Fact(DisplayName = "Try a GeoDDCoordinate with a large latitude - Should return a 'MaxLatitudeException'")]
-    public void Latitude_Large_MaxLatitudeException()
+    [Fact]
+    public void LargeLatitude_CreateGeoDDCoordinate_MaxLatitudeException()
     {
         // Arrange & Act
         var act = Record.Exception(() => new GeoDDCoordinate(90.1, 12));
@@ -104,8 +103,8 @@ public class GeoDDCoordinateTests
             .BeOfType<MaxLatitudeException>();
     }
 
-    [Fact(DisplayName = "Try a GeoDDCoordinate with a small longitude - Should return a 'MinLongitudeException'")]
-    public void Longitude_Small_MinLatitudeException()
+    [Fact]
+    public void SmallLongitude_CreateGeoDDCoordinate_MinLongitudeException()
     {
         // Arrange & Act
         var act = Record.Exception(() => new GeoDDCoordinate(12, -180.1));
@@ -116,8 +115,8 @@ public class GeoDDCoordinateTests
             .BeOfType<MinLongitudeException>();
     }
 
-    [Fact(DisplayName = "Try a GeoDDCoordinate with a large longitude - Should return a 'MaxLongitudeException'")]
-    public void Longitude_Large_MaxLatitudeException()
+    [Fact]
+    public void LargeLongitude_CreateGeoDDCoordinate_MaxLongitudeException()
     {
         // Arrange & Act
         var act = Record.Exception(() => new GeoDDCoordinate(12, 180.1));
@@ -128,7 +127,7 @@ public class GeoDDCoordinateTests
             .BeOfType<MaxLongitudeException>();
     }
 
-    [Fact(DisplayName = "Desconstruct a GeoDDCoordinate object - Should return the latitude and longitude")]
+    [Fact]
     public void GeoDDCoordinate_Deconstruct_LatitudeAndLongitude()
     {
         // Arrange
@@ -150,7 +149,7 @@ public class GeoDDCoordinateTests
             .Be(longitude);
     }
 
-    [Fact(DisplayName = "Get coordinate from method toString() - Should return a string with dot as decimal separator")]
+    [Fact]
     public void Coordinate_ToString_DotAsDecimalSeparator()
     {
         // Arrange
@@ -166,8 +165,8 @@ public class GeoDDCoordinateTests
             .Be("12.152, -8.12");
     }
 
-    [Fact(DisplayName = "Comparison of the hash codes, equals properties - Should return true")]
-    public void ComparisonHashCodes_EqualsProperties_True()
+    [Fact]
+    public void EqualsProperties_ComparisonHashCodes_True()
     {
         // Arrange
         GeoDDCoordinate left = new(1.54, 54.1272);
@@ -183,8 +182,8 @@ public class GeoDDCoordinateTests
             .BeTrue();
     }
 
-    [Fact(DisplayName = "Comparison of the hash codes, differents properties - Should return false")]
-    public void ComparisonHashCodes_DifferentsProperties_False()
+    [Fact]
+    public void DifferentsProperties_ComparisonHashCodes_False()
     {
         // Arrange
         GeoDDCoordinate left = new(1.54, 5.1272);
@@ -200,8 +199,8 @@ public class GeoDDCoordinateTests
             .BeFalse();
     }
 
-    [Fact(DisplayName = "Cast a GeoDDCoordinate with implicit operator - Should return a string with dot as decimal separator")]
-    public void ImplicitOperator_CastToString_DotAsDecimalSeparator()
+    [Fact]
+    public void GeoDDCoordinate_CastToString_DotAsDecimalSeparator()
     {
         // Arrange
         var coordinates = new GeoDDCoordinate(1.54, 5.1272);
@@ -216,8 +215,8 @@ public class GeoDDCoordinateTests
             .Be("1.54, 5.1272");
     }
 
-    [Fact(DisplayName = "Equals method, other null - Should return false")]
-    public void EqualsMethod_OtherNull_False()
+    [Fact]
+    public void RightValueNull_EqualsMethod_False()
     {
         // Arrange
         GeoDDCoordinate left = new(81.54, -54.1272);
@@ -233,8 +232,8 @@ public class GeoDDCoordinateTests
             .BeFalse();
     }
 
-    [Fact(DisplayName = "Equals method, left and reight equals - Should return true")]
-    public void EqualsMethod_LeftRightEquals_True()
+    [Fact]
+    public void LeftAndRightEquals_EqualsMethod_True()
     {
         // Arrange
         GeoDDCoordinate left = new(81.54, -54.1272);
@@ -250,8 +249,8 @@ public class GeoDDCoordinateTests
             .BeTrue();
     }
 
-    [Fact(DisplayName = "Equals method, left and reight differents - Should return false")]
-    public void EqualsMethod_LeftRightDifferents_False()
+    [Fact]
+    public void LeftAndRightDifferents_EqualsMethod_False()
     {
         // Arrange
         GeoDDCoordinate left = new(1.54, 54.1272);
@@ -267,8 +266,8 @@ public class GeoDDCoordinateTests
             .BeFalse();
     }
 
-    [Fact(DisplayName = "Equality operator, different coordinates - Should return false")]
-    public void EqualityOperator_DifferentCoordinates_False()
+    [Fact]
+    public void DifferentCoordinates_EqualityOperator_False()
     {
         // Arrange
         GeoDDCoordinate left = new(1.54, 54.1272);
@@ -285,8 +284,8 @@ public class GeoDDCoordinateTests
     }
 
 
-    [Fact(DisplayName = "Equality operator, equals coordinates - Should return true")]
-    public void EqualityOperator_EqualsCoordinates_True()
+    [Fact]
+    public void EqualsCoordinates_EqualityOperator_True()
     {
         // Arrange
         GeoDDCoordinate left = new(1.54, 54.1272);
@@ -302,8 +301,8 @@ public class GeoDDCoordinateTests
             .BeTrue();
     }
 
-    [Fact(DisplayName = "Equality operator, right null - Should return false")]
-    public void EqualityOperator_RightNull_False()
+    [Fact]
+    public void RightValueNull_EqualityOperator_False()
     {
         // Arrange
         GeoDDCoordinate left = new(1.54, 54.1272);
@@ -319,8 +318,8 @@ public class GeoDDCoordinateTests
             .BeFalse();
     }
 
-    [Fact(DisplayName = "Difference operator, different coordinates - Should return true")]
-    public void DifferenceOperator_DifferentCoordinates_True()
+    [Fact]
+    public void DifferentCoordinates_DifferenceOperator_True()
     {
         // Arrange
         GeoDDCoordinate left = new(1.54, 54.1272);
@@ -337,8 +336,8 @@ public class GeoDDCoordinateTests
     }
 
 
-    [Fact(DisplayName = "Difference operator, equals coordinates - Should return false")]
-    public void DifferenceOperator_EqualsCoordinates_False()
+    [Fact]
+    public void EqualsCoordinates_DifferenceOperator_False()
     {
         // Arrange
         GeoDDCoordinate left = new(1.54, 54.1272);
@@ -354,8 +353,8 @@ public class GeoDDCoordinateTests
             .BeFalse();
     }
 
-    [Fact(DisplayName = "Equals method, with object type but the same values - Should return true")]
-    public void EqualsMethod_ObjectTypeEquals_True()
+    [Fact]
+    public void ObjectTypeEquals_EqualsMethod_True()
     {
         // Arrange
         var left = new GeoDDCoordinate(1.54, 54.1272);
@@ -371,8 +370,8 @@ public class GeoDDCoordinateTests
             .BeTrue();
     }
 
-    [Fact(DisplayName = "Equals method, with object type but the different values - Should return false")]
-    public void EqualsMethod_ObjectTypeDifferents_False()
+    [Fact]
+    public void ObjectTypeDifferents_EqualsMethod_False()
     {
         // Arrange
         var left = new GeoDDCoordinate(1.54, 54.1272);
@@ -388,7 +387,7 @@ public class GeoDDCoordinateTests
             .BeFalse();
     }
 
-    [Fact(DisplayName = "Clone the GeoDDCoordinate - Should return equals object")]
+    [Fact]
     public void GeoDDCoordinate_Clone_EqualsObject()
     {
         // Arrange
@@ -407,8 +406,8 @@ public class GeoDDCoordinateTests
     }
 
 
-    [Fact(DisplayName = "Parse DD coordinate from strings with null latitude - Should return an 'ArgumentNullException'")]
-    public void Parse_NullCoordinate_ArgumentNullException()
+    [Fact]
+    public void NullCoordinate_Parse_ArgumentNullException()
     {
         // Arrange & Act
         var act = Record.Exception(() => GeoDDCoordinate.Parse(null));
@@ -421,8 +420,8 @@ public class GeoDDCoordinateTests
                 .Be("coordinate");
     }
 
-    [Fact(DisplayName = "Parse DD coordinate from strings with spaces - Should create object")]
-    public void Parse_DDCoordinateStringWithSpaces_GeoDDCoordinate()
+    [Fact]
+    public void DDCoordinateStringWithSpaces_Parse_GeoDDCoordinate()
     {
         // Arrange
         var coordinate = "81.54  , -54.1272";
@@ -442,8 +441,8 @@ public class GeoDDCoordinateTests
                 .Be(-54.1272);
     }
 
-    [Fact(DisplayName = "Try parse a coordinate with more two commas - Should return 'InvalidCoordinateException'")]
-    public void Parse_WithMoreTwoCommas_InvalidCoordinateException()
+    [Fact]
+    public void WithMoreTwoCommas_Parse_InvalidCoordinateException()
     {
         // Arrange
         var coordinate = "81.54  , -54.1272  , -54.1272";
@@ -458,8 +457,8 @@ public class GeoDDCoordinateTests
             .BeOfType<InvalidCoordinateException>();
     }
 
-    [Fact(DisplayName = "Try parse a coordinate with invalid latitude - Should return 'InvalidCoordinateException'")]
-    public void Parse_InvalidLatitude_InvalidCoordinateException()
+    [Fact]
+    public void InvalidLatitude_Parse_InvalidCoordinateException()
     {
         // Arrange
         var coordinate = "81.54.1  , -54.1272";
@@ -474,8 +473,8 @@ public class GeoDDCoordinateTests
             .BeOfType<InvalidCoordinateException>();
     }
 
-    [Fact(DisplayName = "Cast a string to GeoDDCoordinate - Should return a object GeoDDCoordinate")]
-    public void Cast_FromString_GeoDDCoordinate()
+    [Fact]
+    public void AnyString_Cast_GeoDDCoordinate()
     {
         // Arrange
         var coordinate = "-12.51214,14.1272";
@@ -495,8 +494,8 @@ public class GeoDDCoordinateTests
                 .Be(14.1272);
     }
 
-    [Fact(DisplayName = "Parse an Coordinate string - Should return a GeoDDCoordinate and bool")]
-    public void TryParse_ValidCoordinate_TrueAndGeoDDCoordinate()
+    [Fact]
+    public void ValidCoordinate_TryParse_TrueAndGeoDDCoordinate()
     {
         // Arrange
         var coordinate = "-12.51214,14.1272";
@@ -519,8 +518,8 @@ public class GeoDDCoordinateTests
                 .Be(14.1272);
     }
 
-    [Fact(DisplayName = "Try parse an Coordinate string with invalid coordinate - Should return null and bool")]
-    public void TryParse_InvalidCoordinate_FalseAndNull()
+    [Fact]
+    public void InvalidCoordinate_TryParse_FalseAndNull()
     {
         // Arrange
         var coordinate = "-12.51.214,14.1272";
@@ -538,8 +537,8 @@ public class GeoDDCoordinateTests
             .BeNull();
     }
 
-    [Fact(DisplayName = "Parse an Coordinate string - Should return a GeoDDCoordinate and bool")]
-    public void TryParse_ValidLatitudeAndLongitude_TrueAndGeoDDCoordinate()
+    [Fact]
+    public void ValidLatitudeAndLongitude_TryParse_TrueAndGeoDDCoordinate()
     {
         // Arrange
         var latitude = "81.54";
@@ -563,8 +562,8 @@ public class GeoDDCoordinateTests
                 .Be(-54.1272);
     }
 
-    [Fact(DisplayName = "Try parse an Coordinate string with invalid latitude - Should return null and bool")]
-    public void TryParse_InvalidLatitude_FalseAndNull()
+    [Fact]
+    public void InvalidLatitude_TryParse_FalseAndNull()
     {
         // Arrange
         var latitude = "81.54.1";

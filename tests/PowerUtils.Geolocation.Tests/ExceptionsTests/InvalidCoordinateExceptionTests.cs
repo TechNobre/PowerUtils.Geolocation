@@ -4,10 +4,9 @@ using System.Runtime.Serialization;
 
 namespace PowerUtils.Geolocation.Tests.ExceptionsTests;
 
-[Trait("Type", "Exceptions")]
 public class InvalidCoordinateExceptionTests
 {
-    [Fact(DisplayName = "Serialization and Deserialization InvalidCoordinateException - Should be equivalent")]
+    [Fact]
     public void InvalidCoordinateException_SerializeDeserialize_Equivalent()
     {
         // Arrange
@@ -33,8 +32,8 @@ public class InvalidCoordinateExceptionTests
             .BeEquivalentTo(exception);
     }
 
-    [Fact(DisplayName = "Try call GetObjectData with null info - Should return an 'ArgumentNullException'")]
-    public void GetObjectData_NullInfo_ArgumentNullException()
+    [Fact]
+    public void NullInfo_GetObjectData_ArgumentNullException()
     {
         // Arrange
         var exception = new InvalidCoordinateException("1..12");

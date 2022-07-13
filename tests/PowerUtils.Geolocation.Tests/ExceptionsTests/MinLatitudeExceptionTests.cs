@@ -4,10 +4,9 @@ using System.Runtime.Serialization;
 
 namespace PowerUtils.Geolocation.Tests.ExceptionsTests;
 
-[Trait("Type", "Exceptions")]
 public class MinLatitudeExceptionTests
 {
-    [Fact(DisplayName = "Serialization and Deserialization MinLatitudeException - Should be equivalent")]
+    [Fact]
     public void MinLatitudeException_SerializeDeserialize_Equivalent()
     {
         // Arrange
@@ -33,8 +32,8 @@ public class MinLatitudeExceptionTests
             .BeEquivalentTo(exception);
     }
 
-    [Fact(DisplayName = "Try call GetObjectData with null info - Should return an 'ArgumentNullException'")]
-    public void GetObjectData_NullInfo_ArgumentNullException()
+    [Fact]
+    public void NullInfo_GetObjectData_ArgumentNullException()
     {
         // Arrange
         var exception = new MinLatitudeException(1.12);

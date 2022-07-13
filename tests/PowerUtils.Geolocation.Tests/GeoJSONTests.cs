@@ -1,10 +1,9 @@
 ﻿namespace PowerUtils.Geolocation.Tests;
 
-[Trait("Category", "GeoJSON")]
 public class GeoJSONTests
 {
-    [Fact(DisplayName = "Construct GeoJSON from GeoDDCoordinate")]
-    public void Construct_FromGeoDDCoordinate_GeoJSON()
+    [Fact]
+    public void GeoDDCoordinate_Construct_GeoJSON()
     {
         // Arrange
         var coordinate = new GeoDDCoordinate(9.1, 12);
@@ -24,8 +23,8 @@ public class GeoJSONTests
     }
 
 
-    [Fact(DisplayName = "Cast from 'GeoDDCoordinate' to 'GeoJSON'")]
-    public void ImplicitOperator_GeoDDCoordinate_GeoJSON()
+    [Fact]
+    public void GeoDDCoordinate_ImplicitOperator_GeoJSON()
     {
         // Arrange
         var coordinate = new GeoDDCoordinate(9.1, 12);
@@ -44,8 +43,8 @@ public class GeoJSONTests
             .Be(coordinate.Latitude);
     }
 
-    [Fact(DisplayName = "Cast from 'GeoJSON' to 'GeoDDCoordinate'")]
-    public void ImplicitOperator_GeoJSON_GeoDDCoordinate()
+    [Fact]
+    public void GeoJSON_ImplicitOperator_GeoDDCoordinate()
     {
         // Arrange
         var coordinate = new GeoDDCoordinate(9.1, 12);

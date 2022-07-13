@@ -4,10 +4,9 @@ using System.Threading;
 
 namespace PowerUtils.Geolocation.Tests.ConversionExtensionsTests;
 
-[Trait("Type", "Extensions")]
 public class ToDDPointTests
 {
-    [Theory(DisplayName = "Converting string to decimal degree for en-GB culture")]
+    [Theory]
     [InlineData("40.601203", 40.601_203)]
     [InlineData("-79.12", -79.12)]
     [InlineData("-8,668173", -8.668_173)]
@@ -19,7 +18,7 @@ public class ToDDPointTests
     [InlineData("-24", -24)]
     [InlineData("21", 21)]
     [InlineData("24 234.4", 24_234.4)]
-    public void StringDegree_enGB_Conversion(string coordinate, double expected)
+    public void StringDegreeEnGB_ToDDPoint_Conversion(string coordinate, double expected)
     {
         // Arrange
         var cultureInfo = new CultureInfo("en-GB");
@@ -36,7 +35,7 @@ public class ToDDPointTests
             .Be(expected);
     }
 
-    [Theory(DisplayName = "Converting string to decimal degree for pt-PT culture")]
+    [Theory]
     [InlineData("40.601203", 40.601_203)]
     [InlineData("-79.12", -79.12)]
     [InlineData("-8,668173", -8.668_173)]
@@ -48,7 +47,7 @@ public class ToDDPointTests
     [InlineData("-24", -24)]
     [InlineData("21", 21)]
     [InlineData("24 234.4", 24_234.4)]
-    public void StringDegree_ptPT_Conversion(string coordinate, double expected)
+    public void StringDegreePtPT_ToDDPoint_Conversion(string coordinate, double expected)
     {
         // Arrange
         var cultureInfo = new CultureInfo("pt-PT");
@@ -65,8 +64,8 @@ public class ToDDPointTests
             .Be(expected);
     }
 
-    [Fact(DisplayName = "Try to convert a empty string to decimal degree - Should return an exception")]
-    public void StringCoordinate_Null_Exception()
+    [Fact]
+    public void NullStringCoordinate_ToDDPoint_Exception()
     {
         // Arrange
         string coordinate = null;
@@ -84,12 +83,12 @@ public class ToDDPointTests
                 .Be("The value cannot be null (Parameter 'ddPoint')");
     }
 
-    [Theory(DisplayName = "Try to convert a invalid string to decimal degree - Should return an exception")]
+    [Theory]
     [InlineData("21sd")]
     [InlineData("1.2.1")]
     [InlineData("1fx2.1")]
     [InlineData("")]
-    public void StringDegree_Invalid_Exception(string coordinate)
+    public void InvalidStringDegree_ToDDPoint_Exception(string coordinate)
     {
         // Arrange & Act
         var act = Record.Exception(() => coordinate.ToDDPoint());
