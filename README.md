@@ -13,16 +13,9 @@
 [![License: MIT](https://img.shields.io/github/license/TechNobre/PowerUtils.Geolocation.svg)](https://github.com/TechNobre/PowerUtils.Geolocation/blob/main/LICENSE)
 
 
-
-## Support to
-- .NET 3.1 or more
-- .NET Framework 4.6.2 or more
-- .NET Standard 2.0 or more
-
-
-
-## Features
-
+- [Support](#support-to)
+- [How to use](#how-to-use)
+- [Dependencies](#dependencies)
 - [Exceptions](#Exceptions)
 - [Types](#Types)
   - [CardinalDirection](#Types.CardinalDirection)
@@ -57,19 +50,28 @@
 - [Guard](#Guard)
   - [GuardGeolocation.Against.Latitude()](#GuardGeolocation.Against.Latitude)
   - [GuardGeolocation.Against.Longitude()](#GuardGeolocation.Against.Longitude)
+- [Contribution](#contribution)
+- [License](./LICENSE)
+- [Changelog](./CHANGELOG.md)
 
 
 
-## Documentation
+## Support to <a name="support-to"></a>
+- .NET 3.1 or more
+- .NET Framework 4.6.2 or more
+- .NET Standard 2.0 or more
 
-### Dependencies
+
+
+## Dependencies <a name="dependencies"></a>
 
 - Newtonsoft.Json [NuGet](https://www.nuget.org/packages/Newtonsoft.Json/) *(.NET Framework 4.6.2 | .NET Framework 4.8 | .NET Standard 2.0 | .NET Standard 2.1)*
 
 
-### How to use
 
-#### Install NuGet package
+## How to use <a name="how-to-use"></a>
+
+### Install NuGet package
 This package is available through Nuget Packages: https://www.nuget.org/packages/PowerUtils.Geolocation
 
 **Nuget**
@@ -407,33 +409,6 @@ var longitude = GuardGeolocation.Against.Longitude(degree);
 
 
 
-## Contribution
+## Contribution<a name="contribution"></a>
 
-*Help me to help others*
-
-
-
-## LICENSE
-
-[MIT](https://github.com/TechNobre/PowerUtils.Geolocation/blob/main/LICENSE)
-
-
-
-## Release Notes
-
-
-### v1.1.0 - 2022/01/29
-
-#### New features
-- Added new extension `.FromKilometerToMeter()`;
-- Added new extension `.FromKilometerToMile()`;
-- Added new extension `.FromMeterToKilometer()`;
-- Added new extension `.FromMeterToMile()`;
-- Added new extension `.FromMileToMeter()`;
-- Added new extension `.FromMileToKilometer()`;
-
-
-
-### v1.0.0 - 2022/01/28
-
-- Start project
+If you have any questions, comments, or suggestions, please open an [issue](https://github.com/TechNobre/PowerUtils.Geolocation/issues/new/choose) or create a [pull request](https://github.com/TechNobre/PowerUtils.Geolocation/compare)
