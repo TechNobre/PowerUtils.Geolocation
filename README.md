@@ -5,8 +5,11 @@
 ***Library to work with geographic coordinates***
 
 ![Tests](https://github.com/TechNobre/PowerUtils.Geolocation/actions/workflows/tests.yml/badge.svg)
+
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=TechNobre_PowerUtils.Geolocation&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=TechNobre_PowerUtils.Geolocation)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=TechNobre_PowerUtils.Geolocation&metric=coverage)](https://sonarcloud.io/summary/new_code?id=TechNobre_PowerUtils.Geolocation)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=TechNobre_PowerUtils.Geolocation&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=TechNobre_PowerUtils.Geolocation)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=TechNobre_PowerUtils.Geolocation&metric=bugs)](https://sonarcloud.io/summary/new_code?id=TechNobre_PowerUtils.Geolocation)
 
 [![NuGet](https://img.shields.io/nuget/v/PowerUtils.Geolocation.svg)](https://www.nuget.org/packages/PowerUtils.Geolocation)
 [![Nuget](https://img.shields.io/nuget/dt/PowerUtils.Geolocation.svg)](https://www.nuget.org/packages/PowerUtils.Geolocation)
