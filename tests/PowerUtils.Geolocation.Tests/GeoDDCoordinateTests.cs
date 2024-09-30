@@ -1,584 +1,588 @@
 ﻿using System;
+using FluentAssertions;
+using PowerUtils.Geolocation.Exceptions;
+using Xunit;
 
-namespace PowerUtils.Geolocation.Tests;
-
-public class GeoDDCoordinateTests
+namespace PowerUtils.Geolocation.Tests
 {
-    [Fact]
-    public void ValidLatitudeLongitude_Constructor_Create()
+    public class GeoDDCoordinateTests
     {
-        // Arrange
-        var latitude = 81.54;
-        var longitude = -54.1272;
+        [Fact]
+        public void ValidLatitudeLongitude_Constructor_Create()
+        {
+            // Arrange
+            var latitude = 81.54;
+            var longitude = -54.1272;
 
 
-        // Act
-        var act = new GeoDDCoordinate(
-            latitude,
-            longitude
-        );
+            // Act
+            var act = new GeoDDCoordinate(
+                latitude,
+                longitude
+            );
 
 
-        // Assert
-        act.Latitude
-            .Should()
+            // Assert
+            act.Latitude
+                .Should()
+                    .Be(latitude);
+
+            act.Longitude
+                .Should()
+                    .Be(longitude);
+        }
+
+        [Fact]
+        public void LatitudeLongitudeString_Parse_GeoDDCoordinate()
+        {
+            // Arrange
+            var latitude = "81.54";
+            var longitude = "-54.1272";
+
+
+            // Act
+            var act = GeoDDCoordinate.Parse(latitude, longitude);
+
+
+            // Assert
+            act.Latitude
+                .Should()
+                    .Be(81.54);
+
+            act.Longitude
+                .Should()
+                    .Be(-54.1272);
+        }
+
+        [Fact]
+        public void NullLatitude_Parse_ArgumentNullException()
+        {
+            // Arrange & Act
+            var act = Record.Exception(() => GeoDDCoordinate.Parse(null, "12.442"));
+
+
+            // Assert
+            act.Should()
+                .BeOfType<ArgumentNullException>()
+                .Which.ParamName.Should()
+                    .Be("ddPoint");
+        }
+
+        [Fact]
+        public void NullLongitude_Parse_ArgumentNullException()
+        {
+            // Arrange & Act
+            var act = Record.Exception(() => GeoDDCoordinate.Parse("12.442", null));
+
+
+            // Assert
+            act.Should()
+                .BeOfType<ArgumentNullException>()
+                .Which.ParamName.Should()
+                    .Be("ddPoint");
+        }
+
+        [Fact]
+        public void SmallLatitude_CreateGeoDDCoordinate_MinLatitudeException()
+        {
+            // Arrange & Act
+            var act = Record.Exception(() => new GeoDDCoordinate(-90.1, 12));
+
+
+            // Assert
+            act.Should()
+                .BeOfType<MinLatitudeException>();
+        }
+
+        [Fact]
+        public void LargeLatitude_CreateGeoDDCoordinate_MaxLatitudeException()
+        {
+            // Arrange & Act
+            var act = Record.Exception(() => new GeoDDCoordinate(90.1, 12));
+
+
+            // Assert
+            act.Should()
+                .BeOfType<MaxLatitudeException>();
+        }
+
+        [Fact]
+        public void SmallLongitude_CreateGeoDDCoordinate_MinLongitudeException()
+        {
+            // Arrange & Act
+            var act = Record.Exception(() => new GeoDDCoordinate(12, -180.1));
+
+
+            // Assert
+            act.Should()
+                .BeOfType<MinLongitudeException>();
+        }
+
+        [Fact]
+        public void LargeLongitude_CreateGeoDDCoordinate_MaxLongitudeException()
+        {
+            // Arrange & Act
+            var act = Record.Exception(() => new GeoDDCoordinate(12, 180.1));
+
+
+            // Assert
+            act.Should()
+                .BeOfType<MaxLongitudeException>();
+        }
+
+        [Fact]
+        public void GeoDDCoordinate_Deconstruct_LatitudeAndLongitude()
+        {
+            // Arrange
+            var latitude = 81.54;
+            var longitude = -54.1272;
+
+            var coordinates = new GeoDDCoordinate(latitude, longitude);
+
+
+            // Act
+            (var actLatitude, var actLongitude) = coordinates;
+
+
+            // Assert
+            actLatitude.Should()
                 .Be(latitude);
 
-        act.Longitude
-            .Should()
+            actLongitude.Should()
                 .Be(longitude);
-    }
-
-    [Fact]
-    public void LatitudeLongitudeString_Parse_GeoDDCoordinate()
-    {
-        // Arrange
-        var latitude = "81.54";
-        var longitude = "-54.1272";
-
-
-        // Act
-        var act = GeoDDCoordinate.Parse(latitude, longitude);
+        }
 
+        [Fact]
+        public void Coordinate_ToString_DotAsDecimalSeparator()
+        {
+            // Arrange
+            var coordinate = GeoDDCoordinate.Parse("12,152", "-8,12");
 
-        // Assert
-        act.Latitude
-            .Should()
-                .Be(81.54);
 
-        act.Longitude
-            .Should()
-                .Be(-54.1272);
-    }
+            // Act
+            var act = coordinate.ToString();
 
-    [Fact]
-    public void NullLatitude_Parse_ArgumentNullException()
-    {
-        // Arrange & Act
-        var act = Record.Exception(() => GeoDDCoordinate.Parse(null, "12.442"));
 
+            // Assert
+            act.Should()
+                .Be("12.152, -8.12");
+        }
 
-        // Assert
-        act.Should()
-            .BeOfType<ArgumentNullException>()
-            .Which.ParamName.Should()
-                .Be("ddPoint");
-    }
+        [Fact]
+        public void EqualsProperties_ComparisonHashCodes_True()
+        {
+            // Arrange
+            var left = new GeoDDCoordinate(1.54, 54.1272);
+            var right = new GeoDDCoordinate(1.54, 54.1272);
 
-    [Fact]
-    public void NullLongitude_Parse_ArgumentNullException()
-    {
-        // Arrange & Act
-        var act = Record.Exception(() => GeoDDCoordinate.Parse("12.442", null));
 
+            // Act
+            var act = left.GetHashCode() == right.GetHashCode();
 
-        // Assert
-        act.Should()
-            .BeOfType<ArgumentNullException>()
-            .Which.ParamName.Should()
-                .Be("ddPoint");
-    }
 
-    [Fact]
-    public void SmallLatitude_CreateGeoDDCoordinate_MinLatitudeException()
-    {
-        // Arrange & Act
-        var act = Record.Exception(() => new GeoDDCoordinate(-90.1, 12));
+            // Assert
+            act.Should()
+                .BeTrue();
+        }
 
+        [Fact]
+        public void DifferentsProperties_ComparisonHashCodes_False()
+        {
+            // Arrange
+            var left = new GeoDDCoordinate(1.54, 5.1272);
+            var right = new GeoDDCoordinate(-1.54, 54.1272);
 
-        // Assert
-        act.Should()
-            .BeOfType<MinLatitudeException>();
-    }
 
-    [Fact]
-    public void LargeLatitude_CreateGeoDDCoordinate_MaxLatitudeException()
-    {
-        // Arrange & Act
-        var act = Record.Exception(() => new GeoDDCoordinate(90.1, 12));
+            // Act
+            var act = left.GetHashCode() == right.GetHashCode();
 
 
-        // Assert
-        act.Should()
-            .BeOfType<MaxLatitudeException>();
-    }
+            // Assert
+            act.Should()
+                .BeFalse();
+        }
 
-    [Fact]
-    public void SmallLongitude_CreateGeoDDCoordinate_MinLongitudeException()
-    {
-        // Arrange & Act
-        var act = Record.Exception(() => new GeoDDCoordinate(12, -180.1));
+        [Fact]
+        public void GeoDDCoordinate_CastToString_DotAsDecimalSeparator()
+        {
+            // Arrange
+            var coordinates = new GeoDDCoordinate(1.54, 5.1272);
 
 
-        // Assert
-        act.Should()
-            .BeOfType<MinLongitudeException>();
-    }
+            // Act
+            var act = (string)coordinates;
 
-    [Fact]
-    public void LargeLongitude_CreateGeoDDCoordinate_MaxLongitudeException()
-    {
-        // Arrange & Act
-        var act = Record.Exception(() => new GeoDDCoordinate(12, 180.1));
 
+            // Assert
+            act.Should()
+                .Be("1.54, 5.1272");
+        }
 
-        // Assert
-        act.Should()
-            .BeOfType<MaxLongitudeException>();
-    }
+        [Fact]
+        public void RightValueNull_EqualsMethod_False()
+        {
+            // Arrange
+            var left = new GeoDDCoordinate(81.54, -54.1272);
+            GeoDDCoordinate right = null;
 
-    [Fact]
-    public void GeoDDCoordinate_Deconstruct_LatitudeAndLongitude()
-    {
-        // Arrange
-        var latitude = 81.54;
-        var longitude = -54.1272;
 
-        var coordinates = new GeoDDCoordinate(latitude, longitude);
+            // Act
+            var act = left.Equals(right);
 
 
-        // Act
-        (var actLatitude, var actLongitude) = coordinates;
+            // Assert
+            act.Should()
+                .BeFalse();
+        }
 
+        [Fact]
+        public void LeftAndRightEquals_EqualsMethod_True()
+        {
+            // Arrange
+            var left = new GeoDDCoordinate(81.54, -54.1272);
+            var right = new GeoDDCoordinate(81.54, -54.1272);
 
-        // Assert
-        actLatitude.Should()
-            .Be(latitude);
 
-        actLongitude.Should()
-            .Be(longitude);
-    }
+            // Act
+            var act = left.Equals(right);
 
-    [Fact]
-    public void Coordinate_ToString_DotAsDecimalSeparator()
-    {
-        // Arrange
-        var coordinate = GeoDDCoordinate.Parse("12,152", "-8,12");
 
+            // Assert
+            act.Should()
+                .BeTrue();
+        }
 
-        // Act
-        var act = coordinate.ToString();
+        [Fact]
+        public void LeftAndRightDifferents_EqualsMethod_False()
+        {
+            // Arrange
+            var left = new GeoDDCoordinate(1.54, 54.1272);
+            var right = new GeoDDCoordinate(81.54, -54.1272);
 
 
-        // Assert
-        act.Should()
-            .Be("12.152, -8.12");
-    }
+            // Act
+            var act = left.Equals(right);
 
-    [Fact]
-    public void EqualsProperties_ComparisonHashCodes_True()
-    {
-        // Arrange
-        GeoDDCoordinate left = new(1.54, 54.1272);
-        GeoDDCoordinate right = new(1.54, 54.1272);
 
+            // Assert
+            act.Should()
+                .BeFalse();
+        }
 
-        // Act
-        var act = left.GetHashCode() == right.GetHashCode();
+        [Fact]
+        public void DifferentCoordinates_EqualityOperator_False()
+        {
+            // Arrange
+            var left = new GeoDDCoordinate(1.54, 54.1272);
+            var right = new GeoDDCoordinate(81.54, -54.1272);
 
 
-        // Assert
-        act.Should()
-            .BeTrue();
-    }
+            // Act
+            var act = left == right;
 
-    [Fact]
-    public void DifferentsProperties_ComparisonHashCodes_False()
-    {
-        // Arrange
-        GeoDDCoordinate left = new(1.54, 5.1272);
-        GeoDDCoordinate right = new(-1.54, 54.1272);
 
+            // Assert
+            act.Should()
+                .BeFalse();
+        }
 
-        // Act
-        var act = left.GetHashCode() == right.GetHashCode();
 
+        [Fact]
+        public void EqualsCoordinates_EqualityOperator_True()
+        {
+            // Arrange
+            var left = new GeoDDCoordinate(1.54, 54.1272);
+            var right = new GeoDDCoordinate(1.54, 54.1272);
 
-        // Assert
-        act.Should()
-            .BeFalse();
-    }
 
-    [Fact]
-    public void GeoDDCoordinate_CastToString_DotAsDecimalSeparator()
-    {
-        // Arrange
-        var coordinates = new GeoDDCoordinate(1.54, 5.1272);
+            // Act
+            var act = left == right;
 
 
-        // Act
-        var act = (string)coordinates;
+            // Assert
+            act.Should()
+                .BeTrue();
+        }
 
+        [Fact]
+        public void RightValueNull_EqualityOperator_False()
+        {
+            // Arrange
+            var left = new GeoDDCoordinate(1.54, 54.1272);
+            GeoDDCoordinate right = null;
 
-        // Assert
-        act.Should()
-            .Be("1.54, 5.1272");
-    }
 
-    [Fact]
-    public void RightValueNull_EqualsMethod_False()
-    {
-        // Arrange
-        GeoDDCoordinate left = new(81.54, -54.1272);
-        GeoDDCoordinate right = null;
+            // Act
+            var act = left == right;
 
 
-        // Act
-        var act = left.Equals(right);
+            // Assert
+            act.Should()
+                .BeFalse();
+        }
 
+        [Fact]
+        public void DifferentCoordinates_DifferenceOperator_True()
+        {
+            // Arrange
+            var left = new GeoDDCoordinate(1.54, 54.1272);
+            var right = new GeoDDCoordinate(81.54, -54.1272);
 
-        // Assert
-        act.Should()
-            .BeFalse();
-    }
 
-    [Fact]
-    public void LeftAndRightEquals_EqualsMethod_True()
-    {
-        // Arrange
-        GeoDDCoordinate left = new(81.54, -54.1272);
-        GeoDDCoordinate right = new(81.54, -54.1272);
+            // Act
+            var act = left != right;
 
 
-        // Act
-        var act = left.Equals(right);
+            // Assert
+            act.Should()
+                .BeTrue();
+        }
 
 
-        // Assert
-        act.Should()
-            .BeTrue();
-    }
+        [Fact]
+        public void EqualsCoordinates_DifferenceOperator_False()
+        {
+            // Arrange
+            var left = new GeoDDCoordinate(1.54, 54.1272);
+            var right = new GeoDDCoordinate(1.54, 54.1272);
 
-    [Fact]
-    public void LeftAndRightDifferents_EqualsMethod_False()
-    {
-        // Arrange
-        GeoDDCoordinate left = new(1.54, 54.1272);
-        GeoDDCoordinate right = new(81.54, -54.1272);
 
+            // Act
+            var act = left != right;
 
-        // Act
-        var act = left.Equals(right);
 
+            // Assert
+            act.Should()
+                .BeFalse();
+        }
 
-        // Assert
-        act.Should()
-            .BeFalse();
-    }
+        [Fact]
+        public void ObjectTypeEquals_EqualsMethod_True()
+        {
+            // Arrange
+            var left = new GeoDDCoordinate(1.54, 54.1272);
+            object right = new GeoDDCoordinate(1.54, 54.1272);
 
-    [Fact]
-    public void DifferentCoordinates_EqualityOperator_False()
-    {
-        // Arrange
-        GeoDDCoordinate left = new(1.54, 54.1272);
-        GeoDDCoordinate right = new(81.54, -54.1272);
 
+            // Act
+            var act = left.Equals(right);
 
-        // Act
-        var act = left == right;
 
+            // Assert
+            act.Should()
+                .BeTrue();
+        }
 
-        // Assert
-        act.Should()
-            .BeFalse();
-    }
+        [Fact]
+        public void ObjectTypeDifferents_EqualsMethod_False()
+        {
+            // Arrange
+            var left = new GeoDDCoordinate(1.54, 54.1272);
+            object right = new GeoDDCoordinate(-1.54, 4.1272);
 
 
-    [Fact]
-    public void EqualsCoordinates_EqualityOperator_True()
-    {
-        // Arrange
-        GeoDDCoordinate left = new(1.54, 54.1272);
-        GeoDDCoordinate right = new(1.54, 54.1272);
+            // Act
+            var act = left.Equals(right);
 
 
-        // Act
-        var act = left == right;
+            // Assert
+            act.Should()
+                .BeFalse();
+        }
 
+        [Fact]
+        public void GeoDDCoordinate_Clone_EqualsObject()
+        {
+            // Arrange
+            var coordinate = new GeoDDCoordinate(1.54, 54.1272);
 
-        // Assert
-        act.Should()
-            .BeTrue();
-    }
 
-    [Fact]
-    public void RightValueNull_EqualityOperator_False()
-    {
-        // Arrange
-        GeoDDCoordinate left = new(1.54, 54.1272);
-        GeoDDCoordinate right = null;
+            // Act
+            var act = coordinate.Clone() as GeoDDCoordinate;
 
 
-        // Act
-        var act = left == right;
+            // Assert
+            act.Latitude.Should()
+                .Be(coordinate.Latitude);
+            act.Longitude.Should()
+                .Be(coordinate.Longitude);
+        }
 
 
-        // Assert
-        act.Should()
-            .BeFalse();
-    }
+        [Fact]
+        public void NullCoordinate_Parse_ArgumentNullException()
+        {
+            // Arrange & Act
+            var act = Record.Exception(() => GeoDDCoordinate.Parse(null));
 
-    [Fact]
-    public void DifferentCoordinates_DifferenceOperator_True()
-    {
-        // Arrange
-        GeoDDCoordinate left = new(1.54, 54.1272);
-        GeoDDCoordinate right = new(81.54, -54.1272);
 
+            // Assert
+            act.Should()
+                .BeOfType<ArgumentNullException>()
+                .Which.ParamName.Should()
+                    .Be("coordinate");
+        }
 
-        // Act
-        var act = left != right;
+        [Fact]
+        public void DDCoordinateStringWithSpaces_Parse_GeoDDCoordinate()
+        {
+            // Arrange
+            var coordinate = "81.54  , -54.1272";
 
 
-        // Assert
-        act.Should()
-            .BeTrue();
-    }
+            // Act
+            var act = GeoDDCoordinate.Parse(coordinate);
 
 
-    [Fact]
-    public void EqualsCoordinates_DifferenceOperator_False()
-    {
-        // Arrange
-        GeoDDCoordinate left = new(1.54, 54.1272);
-        GeoDDCoordinate right = new(1.54, 54.1272);
+            // Assert
+            act.Latitude
+                .Should()
+                    .Be(81.54);
 
+            act.Longitude
+                .Should()
+                    .Be(-54.1272);
+        }
 
-        // Act
-        var act = left != right;
+        [Fact]
+        public void WithMoreTwoCommas_Parse_InvalidCoordinateException()
+        {
+            // Arrange
+            var coordinate = "81.54  , -54.1272  , -54.1272";
 
 
-        // Assert
-        act.Should()
-            .BeFalse();
-    }
+            // Act
+            var act = Record.Exception(() => GeoDDCoordinate.Parse(coordinate));
 
-    [Fact]
-    public void ObjectTypeEquals_EqualsMethod_True()
-    {
-        // Arrange
-        var left = new GeoDDCoordinate(1.54, 54.1272);
-        object right = new GeoDDCoordinate(1.54, 54.1272);
 
+            // Assert
+            act.Should()
+                .BeOfType<InvalidCoordinateException>();
+        }
 
-        // Act
-        var act = left.Equals(right);
+        [Fact]
+        public void InvalidLatitude_Parse_InvalidCoordinateException()
+        {
+            // Arrange
+            var coordinate = "81.54.1  , -54.1272";
 
 
-        // Assert
-        act.Should()
-            .BeTrue();
-    }
+            // Act
+            var act = Record.Exception(() => GeoDDCoordinate.Parse(coordinate));
 
-    [Fact]
-    public void ObjectTypeDifferents_EqualsMethod_False()
-    {
-        // Arrange
-        var left = new GeoDDCoordinate(1.54, 54.1272);
-        object right = new GeoDDCoordinate(-1.54, 4.1272);
 
+            // Assert
+            act.Should()
+                .BeOfType<InvalidCoordinateException>();
+        }
 
-        // Act
-        var act = left.Equals(right);
+        [Fact]
+        public void AnyString_Cast_GeoDDCoordinate()
+        {
+            // Arrange
+            var coordinate = "-12.51214,14.1272";
 
 
-        // Assert
-        act.Should()
-            .BeFalse();
-    }
+            // Act
+            var act = (GeoDDCoordinate)coordinate;
 
-    [Fact]
-    public void GeoDDCoordinate_Clone_EqualsObject()
-    {
-        // Arrange
-        var coordinate = new GeoDDCoordinate(1.54, 54.1272);
 
+            // Assert
+            act.Latitude
+                .Should()
+                    .Be(-12.51214);
 
-        // Act
-        var act = coordinate.Clone() as GeoDDCoordinate;
+            act.Longitude
+                .Should()
+                    .Be(14.1272);
+        }
 
+        [Fact]
+        public void ValidCoordinate_TryParse_TrueAndGeoDDCoordinate()
+        {
+            // Arrange
+            var coordinate = "-12.51214,14.1272";
 
-        // Assert
-        act.Latitude.Should()
-            .Be(coordinate.Latitude);
-        act.Longitude.Should()
-            .Be(coordinate.Longitude);
-    }
 
+            // Act
+            var act = GeoDDCoordinate.TryParse(coordinate, out var result);
 
-    [Fact]
-    public void NullCoordinate_Parse_ArgumentNullException()
-    {
-        // Arrange & Act
-        var act = Record.Exception(() => GeoDDCoordinate.Parse(null));
 
+            // Assert
+            act.Should()
+                .BeTrue();
 
-        // Assert
-        act.Should()
-            .BeOfType<ArgumentNullException>()
-            .Which.ParamName.Should()
-                .Be("coordinate");
-    }
+            result.Latitude
+                .Should()
+                    .Be(-12.51214);
 
-    [Fact]
-    public void DDCoordinateStringWithSpaces_Parse_GeoDDCoordinate()
-    {
-        // Arrange
-        var coordinate = "81.54  , -54.1272";
+            result.Longitude
+                .Should()
+                    .Be(14.1272);
+        }
 
+        [Fact]
+        public void InvalidCoordinate_TryParse_FalseAndNull()
+        {
+            // Arrange
+            var coordinate = "-12.51.214,14.1272";
 
-        // Act
-        var act = GeoDDCoordinate.Parse(coordinate);
 
+            // Act
+            var act = GeoDDCoordinate.TryParse(coordinate, out var result);
 
-        // Assert
-        act.Latitude
-            .Should()
-                .Be(81.54);
 
-        act.Longitude
-            .Should()
-                .Be(-54.1272);
-    }
+            // Assert
+            act.Should()
+                .BeFalse();
 
-    [Fact]
-    public void WithMoreTwoCommas_Parse_InvalidCoordinateException()
-    {
-        // Arrange
-        var coordinate = "81.54  , -54.1272  , -54.1272";
+            result.Should()
+                .BeNull();
+        }
 
+        [Fact]
+        public void ValidLatitudeAndLongitude_TryParse_TrueAndGeoDDCoordinate()
+        {
+            // Arrange
+            var latitude = "81.54";
+            var longitude = "-54.1272";
 
-        // Act
-        var act = Record.Exception(() => GeoDDCoordinate.Parse(coordinate));
 
+            // Act
+            var act = GeoDDCoordinate.TryParse(latitude, longitude, out var result);
 
-        // Assert
-        act.Should()
-            .BeOfType<InvalidCoordinateException>();
-    }
 
-    [Fact]
-    public void InvalidLatitude_Parse_InvalidCoordinateException()
-    {
-        // Arrange
-        var coordinate = "81.54.1  , -54.1272";
+            // Assert
+            act.Should()
+                .BeTrue();
 
+            result.Latitude
+                .Should()
+                    .Be(81.54);
 
-        // Act
-        var act = Record.Exception(() => GeoDDCoordinate.Parse(coordinate));
+            result.Longitude
+                .Should()
+                    .Be(-54.1272);
+        }
 
+        [Fact]
+        public void InvalidLatitude_TryParse_FalseAndNull()
+        {
+            // Arrange
+            var latitude = "81.54.1";
+            var longitude = "-54.1272";
 
-        // Assert
-        act.Should()
-            .BeOfType<InvalidCoordinateException>();
-    }
 
-    [Fact]
-    public void AnyString_Cast_GeoDDCoordinate()
-    {
-        // Arrange
-        var coordinate = "-12.51214,14.1272";
+            // Act
+            var act = GeoDDCoordinate.TryParse(latitude, longitude, out var result);
 
 
-        // Act
-        var act = (GeoDDCoordinate)coordinate;
+            // Assert
+            act.Should()
+                .BeFalse();
 
-
-        // Assert
-        act.Latitude
-            .Should()
-                .Be(-12.51214);
-
-        act.Longitude
-            .Should()
-                .Be(14.1272);
-    }
-
-    [Fact]
-    public void ValidCoordinate_TryParse_TrueAndGeoDDCoordinate()
-    {
-        // Arrange
-        var coordinate = "-12.51214,14.1272";
-
-
-        // Act
-        var act = GeoDDCoordinate.TryParse(coordinate, out var result);
-
-
-        // Assert
-        act.Should()
-            .BeTrue();
-
-        result.Latitude
-            .Should()
-                .Be(-12.51214);
-
-        result.Longitude
-            .Should()
-                .Be(14.1272);
-    }
-
-    [Fact]
-    public void InvalidCoordinate_TryParse_FalseAndNull()
-    {
-        // Arrange
-        var coordinate = "-12.51.214,14.1272";
-
-
-        // Act
-        var act = GeoDDCoordinate.TryParse(coordinate, out var result);
-
-
-        // Assert
-        act.Should()
-            .BeFalse();
-
-        result.Should()
-            .BeNull();
-    }
-
-    [Fact]
-    public void ValidLatitudeAndLongitude_TryParse_TrueAndGeoDDCoordinate()
-    {
-        // Arrange
-        var latitude = "81.54";
-        var longitude = "-54.1272";
-
-
-        // Act
-        var act = GeoDDCoordinate.TryParse(latitude, longitude, out var result);
-
-
-        // Assert
-        act.Should()
-            .BeTrue();
-
-        result.Latitude
-            .Should()
-                .Be(81.54);
-
-        result.Longitude
-            .Should()
-                .Be(-54.1272);
-    }
-
-    [Fact]
-    public void InvalidLatitude_TryParse_FalseAndNull()
-    {
-        // Arrange
-        var latitude = "81.54.1";
-        var longitude = "-54.1272";
-
-
-        // Act
-        var act = GeoDDCoordinate.TryParse(latitude, longitude, out var result);
-
-
-        // Assert
-        act.Should()
-            .BeFalse();
-
-        result.Should()
-            .BeNull();
+            result.Should()
+                .BeNull();
+        }
     }
 }

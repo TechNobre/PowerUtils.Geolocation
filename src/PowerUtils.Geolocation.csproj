@@ -1,17 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <!-- Assembly details -->
   <PropertyGroup>
     <ProjectGuid>67b47aa4-5f1b-40a8-83cd-eeb411aacfe8</ProjectGuid>
 
-    <!-- Assembly and projecto details -->
-    <!-- https://docs.microsoft.com/en-us/dotnet/standard/frameworks -->
-    <TargetFrameworks>net6.0;net5.0;netstandard2.0;netstandard2.1;net462;net48;netcoreapp3.1</TargetFrameworks>
-
+    <TargetFrameworks>net8.0;net7.0;net6.0;net5.0;netcoreapp3.1;netstandard2.1;net48;net462</TargetFrameworks>
 
     <AssemblyName>PowerUtils.Geolocation</AssemblyName>
     <RootNamespace>PowerUtils.Geolocation</RootNamespace>
-    
+
     <Version>1.2.0</Version>
 
     <PackageOutputPath>bin\</PackageOutputPath>
@@ -89,16 +85,7 @@
   </ItemGroup>
 
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net462'">
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-  </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net48'">
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-  </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-  </ItemGroup>
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.1'">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net462' or '$(TargetFramework)' == 'net48' or '$(TargetFramework)' == 'netstandard2.1'">
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
