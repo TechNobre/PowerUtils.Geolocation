@@ -13,59 +13,63 @@
 [![License: MIT](https://img.shields.io/github/license/TechNobre/PowerUtils.Geolocation.svg)](https://github.com/TechNobre/PowerUtils.Geolocation/blob/main/LICENSE)
 
 
-- [Support](#support-to)
-- [How to use](#how-to-use)
-- [Dependencies](#dependencies)
-- [Exceptions](#Exceptions)
-- [Types](#Types)
-  - [CardinalDirection](#Types.CardinalDirection)
-  - [DistanceUnit](#Types.DistanceUnit)
-  - [GeographicalOrientation](#Types.GeographicalOrientation)
-- [Extensions](#Extensions)
-  - [LengthConversionExtensions](#Extensions.LengthConversionExtensions)
-    - [.FromKilometerToMeter()](#Extensions.FromKilometerToMeter)
-    - [.FromKilometerToMile()](#Extensions.FromKilometerToMile)
-    - [.FromKilometerTo()](#Extensions.FromKilometerTo)
-    - [.FromMeterToKilometer()](#Extensions.FromMeterToKilometer)
-    - [.FromMeterToMile()](#Extensions.FromMeterToMile)
-    - [.FromMeterTo()](#Extensions.FromMeterTo)
-    - [.FromMileToMeter()](#Extensions.FromMileToMeter)
-    - [.FromMileToKilometer()](#Extensions.FromMileToKilometer)
-    - [.FromMileTo()](#Extensions.FromMileTo)
-  - [ConversionExtensions](#Extensions.ConversionExtensions)
-    - [.GetGeographicalOrientation()](#Extensions.GetGeographicalOrientation)
-    - [.ToRadian()](#Extensions.ToRadian)
-    - [.ToDegree()](#Extensions.ToDegree)
-    - [.ToDDPoint()](#Extensions.ToDDPoint)
-- [Objects](#Objects)
-  - [GeoDDCoordinate](#Objects.GeoDDCoordinate)
-    - [Deconstruct](#Objects.GeoDDCoordinate.Deconstruct)
-    - [Clone](#Objects.GeoDDCoordinate.Clone)
-    - [Comparisons](#Objects.GeoDDCoordinate.Comparisons)
-    - [Implicits](#Objects.GeoDDCoordinate.Implicits)
-    - [Parse](#Objects.GeoDDCoordinate.Parse)
-    - [Distance](#Objects.GeoDDCoordinate.Distance)
-  - [GeoJSON](#Objects.GeoJSON)
-    - [Implicits](#Objects.GeoJSON.Implicits)
-- [Guard](#Guard)
-  - [GuardGeolocation.Against.Latitude()](#GuardGeolocation.Against.Latitude)
-  - [GuardGeolocation.Against.Longitude()](#GuardGeolocation.Against.Longitude)
+- [Support to ](#support-to-)
+- [Dependencies ](#dependencies-)
+- [How to use ](#how-to-use-)
+  - [Install NuGet package](#install-nuget-package)
+  - [Exceptions ](#exceptions-)
+  - [Types ](#types-)
+    - [CardinalDirection ](#cardinaldirection-)
+    - [DistanceUnit ](#distanceunit-)
+    - [GeographicalOrientation ](#geographicalorientation-)
+  - [Extensions ](#extensions-)
+    - [LengthConversionExtensions ](#lengthconversionextensions-)
+    - [.FromKilometerToMeter() ](#fromkilometertometer-)
+    - [.FromKilometerToMile() ](#fromkilometertomile-)
+    - [.FromKilometerTo() ](#fromkilometerto-)
+    - [.FromMeterToKilometer() ](#frommetertokilometer-)
+    - [.FromMeterToMile() ](#frommetertomile-)
+    - [.FromMeterTo() ](#frommeterto-)
+    - [.FromMileToMeter() ](#frommiletometer-)
+    - [.FromMileToKilometer() ](#frommiletokilometer-)
+    - [.FromMileTo() ](#frommileto-)
+    - [ConversionExtensions ](#conversionextensions-)
+      - [.GetGeographicalOrientation() ](#getgeographicalorientation-)
+      - [.ToRadian() ](#toradian-)
+      - [.ToDegree() ](#todegree-)
+      - [.ToDegree() ](#todegree--1)
+      - [.ToDDPoint() ](#toddpoint-)
+  - [Objects ](#objects-)
+    - [GeoDDCoordinate ](#geoddcoordinate-)
+      - [Deconstruct ](#deconstruct-)
+      - [.Clone() ](#clone-)
+      - [Comparisons ](#comparisons-)
+      - [Implicits ](#implicits-)
+      - [Parse ](#parse-)
+      - [Distance ](#distance-)
+    - [GeoJSON ](#geojson-)
+      - [Implicits ](#implicits--1)
+  - [Guard ](#guard-)
+    - [GuardGeolocation.Against.Latitude() ](#guardgeolocationagainstlatitude-)
+    - [GuardGeolocation.Against.Longitude() ](#guardgeolocationagainstlongitude-)
 - [Contribution](#contribution)
-- [License](./LICENSE)
-- [Changelog](./CHANGELOG.md)
 
 
 
 ## Support to <a name="support-to"></a>
-- .NET 3.1 or more
+- .NET 8.0
+- .NET 7.0
+- .NET 6.0
+- .NET 5.0
+- .NET 3.1
+- .NET Standard 2.1
 - .NET Framework 4.6.2 or more
-- .NET Standard 2.0 or more
 
 
 
 ## Dependencies <a name="dependencies"></a>
 
-- Newtonsoft.Json [NuGet](https://www.nuget.org/packages/Newtonsoft.Json/) *(.NET Framework 4.6.2 | .NET Framework 4.8 | .NET Standard 2.0 | .NET Standard 2.1)*
+- Newtonsoft.Json [NuGet](https://www.nuget.org/packages/Newtonsoft.Json/) *(.NET Framework 4.6.2 | .NET Framework 4.8 | .NET Standard 2.1)*
 
 
 

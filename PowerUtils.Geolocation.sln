@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PowerUtils.Geolocation.Test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PowerUtils.Geolocation", "src\PowerUtils.Geolocation.csproj", "{67B47AA4-5F1B-40A8-83CD-EEB411AACFE8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.src", "1.src", "{1A2AA11A-4926-4F24-8640-9BA95A2E7C5B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1A2AA11A-4926-4F24-8640-9BA95A2E7C5B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.tests", "2.tests", "{D4D983BE-ABCB-416F-BA97-5D7F9B68F946}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D4D983BE-ABCB-416F-BA97-5D7F9B68F946}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
