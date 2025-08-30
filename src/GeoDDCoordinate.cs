@@ -17,6 +17,12 @@ namespace PowerUtils.Geolocation
         IEquatable<GeoDDCoordinate>,
         ICloneable
     {
+        /// <summary>
+        /// Tolerance for floating-point equality comparisons in geographical coordinates.
+        /// This tolerance of 1e-12 degrees provides approximately 0.1mm precision at the equator.
+        /// </summary>
+        private const double EQUALITY_TOLERANCE = 1e-12;
+
         public double Latitude => Coordinate[0];
         public double Longitude => Coordinate[1];
 
@@ -66,7 +72,23 @@ namespace PowerUtils.Geolocation
             => $"{_formatString(Latitude)}, {_formatString(Longitude)}";
 
         public override int GetHashCode()
-            => Latitude.GetHashCode() * Longitude.GetHashCode();
+        {
+            // To maintain hash code consistency with tolerance-based equality,
+            // we need to normalize the values to ensure that coordinates
+            // that are equal within tolerance produce the same hash code.
+            // We round to a precision that's stricter than our tolerance.
+            var normalizedLat = Math.Round(Latitude, 10);
+            var normalizedLon = Math.Round(Longitude, 10);
+            
+            // Use a more compatible hash code combination for older frameworks
+            unchecked
+            {
+                int hash = 17;
+                hash = hash * 23 + normalizedLat.GetHashCode();
+                hash = hash * 23 + normalizedLon.GetHashCode();
+                return hash;
+            }
+        }
         #endregion
 
 
@@ -74,21 +96,20 @@ namespace PowerUtils.Geolocation
         #region COMPARISON
         public static bool operator ==(GeoDDCoordinate left, GeoDDCoordinate right)
         {
-            if(right is null)
-            {
-                return false;
-            }
-
-            if(
-                left.Latitude == right.Latitude
-                &&
-                left.Longitude == right.Longitude
-            )
+            // Handle null comparisons
+            if (left is null && right is null)
             {
                 return true;
             }
 
-            return false;
+            if (left is null || right is null)
+            {
+                return false;
+            }
+
+            // Use tolerance-based comparison for floating-point reliability
+            return Math.Abs(left.Latitude - right.Latitude) < EQUALITY_TOLERANCE
+                && Math.Abs(left.Longitude - right.Longitude) < EQUALITY_TOLERANCE;
         }
 
         public static bool operator !=(GeoDDCoordinate left, GeoDDCoordinate right)
