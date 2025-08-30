@@ -2,13 +2,13 @@ using System;
 using FluentAssertions;
 using Xunit;
 
-namespace PowerUtils.Geolocation.Tests
+namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 {
     /// <summary>
     /// Tests to detect and verify floating-point equality issues in GeoDDCoordinate
     /// These tests demonstrate the reliability issues with direct floating-point equality comparison
     /// </summary>
-    public class GeoDDCoordinateFloatingPointTests
+    public class FloatingPointTests
     {
         #region Floating-Point Precision Issues
 
@@ -43,7 +43,7 @@ namespace PowerUtils.Geolocation.Tests
         }
 
         [Fact]
-        public void MinusculeFloatingPointDifferences_EqualityOperator_ShouldBeEqualButCurrentlyFails()
+        public void MinusculeFloatingPointDifferences_EqualityOperator_ShouldBeEqualWithToleranceBasedComparison()
         {
             // Arrange - Create coordinates with tiny differences that should be considered equal
             var lat1 = 45.123456789012345;
@@ -60,10 +60,10 @@ namespace PowerUtils.Geolocation.Tests
             var areEqual = coord1 == coord2;
 
 
-            // Assert
-            areEqual.Should().BeFalse("Current implementation uses direct equality which fails for tiny differences");
+            // Assert - With tolerance-based equality, tiny differences should be considered equal
+            areEqual.Should().BeTrue("Tolerance-based implementation should consider tiny differences as equal");
 
-            // Demonstrate that the differences are minuscule and should be considered equal
+            // Demonstrate that the differences are minuscule
             var latDiff = Math.Abs(lat1 - lat2);
             var lonDiff = Math.Abs(lon1 - lon2);
 
@@ -93,7 +93,7 @@ namespace PowerUtils.Geolocation.Tests
         }
 
         [Fact]
-        public void CoordinatesWithRepeatingDecimals_EqualityOperator_ShouldHandlePrecisionLimits()
+        public void CoordinatesWithRepeatingDecimals_EqualityOperator_ShouldHandlePrecisionLimitsCorrectly()
         {
             // Arrange - Use values that can't be precisely represented in binary floating-point
             var coord1 = new GeoDDCoordinate(1.0 / 3.0, 2.0 / 3.0); // 0.333... and 0.666...
@@ -110,8 +110,8 @@ namespace PowerUtils.Geolocation.Tests
             latDiff.Should().BeLessThan(1e-15, "Differences should be within double precision limits");
             lonDiff.Should().BeLessThan(1e-15, "Differences should be within double precision limits");
 
-            // Current implementation may fail this
-            areEqual.Should().BeFalse("Current implementation may fail due to precision representation");
+            // With tolerance-based equality, this should now work reliably
+            areEqual.Should().BeTrue("Tolerance-based implementation should handle precision representation differences");
         }
 
         #endregion
@@ -225,37 +225,47 @@ namespace PowerUtils.Geolocation.Tests
             var lat1 = 45.123456789012345;
             var lon1 = -90.987654321098765;
             var lat2 = 45.123456789012346; // Tiny difference
-            var lon2 = -90.987654321098766; // Tiny difference
+            var lon2 = -90.987654321098764; // Tiny difference
 
             const double tolerance = 1e-10; // Reasonable tolerance for geographical coordinates
 
 
-            // Act - Demonstrate how tolerance-based comparison would work
-            var wouldBeEqualWithTolerance =
+            // Act - Demonstrate how tolerance-based comparison works
+            var manualToleranceComparison =
                 Math.Abs(lat1 - lat2) < tolerance &&
                 Math.Abs(lon1 - lon2) < tolerance;
 
+            var coord1 = new GeoDDCoordinate(lat1, lon1);
+            var coord2 = new GeoDDCoordinate(lat2, lon2);
+            var actualEqualityResult = coord1 == coord2;
+
 
             // Assert
-            wouldBeEqualWithTolerance.Should().BeTrue(
+            manualToleranceComparison.Should().BeTrue(
                 "Coordinates with tiny differences should be considered equal with tolerance-based comparison");
 
-            // Demonstrate the current problem
-            var currentlyEqual = lat1 == lat2 && lon1 == lon2;
-            currentlyEqual.Should().BeFalse(
-                "Current direct equality comparison fails for tiny differences");
+            // Now the implementation should work correctly with tolerance-based comparison
+            actualEqualityResult.Should().BeTrue(
+                "Fixed implementation now uses tolerance-based comparison");
+
+            // Demonstrate the difference vs old direct equality - make sure differences are detectable
+            var directEquality = lat1 == lat2 && lon1 == lon2;
+            if (Math.Abs(lat1 - lat2) > double.Epsilon || Math.Abs(lon1 - lon2) > double.Epsilon)
+            {
+                directEquality.Should().BeFalse(
+                    "Direct equality comparison still fails for tiny differences");
+            }
         }
 
         [Theory]
         [InlineData(45.123456789, -90.987654321, 45.123456789, -90.987654321)] // Identical
-        [InlineData(45.123456789, -90.987654321, 45.1234567891, -90.9876543211)] // Tiny difference
-        [InlineData(0.0, 0.0, 0.0000000001, 0.0000000001)] // Near zero with tiny difference
-        [InlineData(90.0, 180.0, 89.9999999999, 179.9999999999)] // Near bounds with tiny difference
+        [InlineData(45.123456789, -90.987654321, 45.1234567890001, -90.9876543210001)] // Tiny difference within tolerance
+        [InlineData(0.0, 0.0, 0.0000000000001, 0.0000000000001)] // Near zero with tiny difference within tolerance
         public void ToleranceBasedEquality_VariousScenarios_ShouldWorkReliably(
             double lat1, double lon1, double lat2, double lon2)
         {
             // Arrange
-            const double tolerance = 1e-8; // Reasonable tolerance for geographical coordinates
+            const double tolerance = 1e-12; // Updated tolerance to match implementation
 
 
             // Act - How tolerance-based equality would work
@@ -263,7 +273,11 @@ namespace PowerUtils.Geolocation.Tests
                 Math.Abs(lat1 - lat2) < tolerance &&
                 Math.Abs(lon1 - lon2) < tolerance;
 
-            // Demonstrate current behavior
+            var coord1 = new GeoDDCoordinate(lat1, lon1);
+            var coord2 = new GeoDDCoordinate(lat2, lon2);
+            var coordinateEquals = coord1 == coord2;
+
+            // Demonstrate current behavior with raw doubles
             var currentlyEqual = lat1 == lat2 && lon1 == lon2;
 
 
@@ -274,13 +288,31 @@ namespace PowerUtils.Geolocation.Tests
             if (latDiff < tolerance && lonDiff < tolerance)
             {
                 wouldBeEqual.Should().BeTrue("Coordinates within tolerance should be considered equal");
+                coordinateEquals.Should().BeTrue("Our implementation should consider coordinates within tolerance as equal");
             }
 
             // Document when current implementation might fail
             if (latDiff > 0 && latDiff < 1e-14)
             {
-                currentlyEqual.Should().BeFalse("Current implementation may fail for tiny differences due to floating-point precision");
+                currentlyEqual.Should().BeFalse("Direct equality comparison still fails for tiny differences due to floating-point precision");
             }
+        }
+
+        [Theory]
+        [InlineData(90.0, 180.0, 89.9999999999, 179.9999999999)] // Near bounds with significant difference
+        [InlineData(45.0, -90.0, 44.999999999, -89.999999999)] // Significant difference beyond tolerance
+        public void SignificantDifferences_EqualityOperator_ShouldNotBeEqual(
+            double lat1, double lon1, double lat2, double lon2)
+        {
+            // Arrange
+            var coord1 = new GeoDDCoordinate(lat1, lon1);
+            var coord2 = new GeoDDCoordinate(lat2, lon2);
+
+            // Act
+            var areEqual = coord1 == coord2;
+
+            // Assert - These coordinates have significant differences and should not be equal
+            areEqual.Should().BeFalse("Coordinates with significant differences should not be considered equal");
         }
 
         #endregion
@@ -304,9 +336,8 @@ namespace PowerUtils.Geolocation.Tests
             // Assert
             zeroComparison.Should().BeTrue("Positive and negative zero should be equal");
 
-            // For extremely small values, current implementation may be unreliable
-            // 1e-16 == 0.0 --- This might be true due to floating-point precision
-            nearZeroComparison.Should().BeTrue("Values smaller than double precision should be treated as zero");
+            // For extremely small values, tolerance-based comparison should handle this correctly
+            nearZeroComparison.Should().BeTrue("Values much smaller than tolerance should be treated as equal to zero");
         }
 
         [Fact]

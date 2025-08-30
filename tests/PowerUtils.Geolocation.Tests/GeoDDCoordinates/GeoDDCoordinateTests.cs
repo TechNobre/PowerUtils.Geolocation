@@ -3,7 +3,7 @@ using FluentAssertions;
 using PowerUtils.Geolocation.Exceptions;
 using Xunit;
 
-namespace PowerUtils.Geolocation.Tests
+namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 {
     public class GeoDDCoordinateTests
     {
