@@ -174,6 +174,35 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
             // Note: Different objects can have the same hash code, but equal objects must have the same hash code
         }
 
+        [Fact]
+        public void HashCodeContractValidation_EqualCoordinatesWithinTolerance_ShouldHaveSameHashCode()
+        {
+            // Arrange - Create coordinates that are equal within tolerance (1e-12)
+            var base1 = 45.123456789012;
+            var base2 = -90.987654321098;
+
+            // Create a coordinate with differences exactly at the tolerance boundary
+            var diff = 1e-13; // Just within tolerance
+            var coord1 = new GeoDDCoordinate(base1, base2);
+            var coord2 = new GeoDDCoordinate(base1 + diff, base2 + diff);
+
+            // Act
+            var areEqual = coord1 == coord2;
+            var hash1 = coord1.GetHashCode();
+            var hash2 = coord2.GetHashCode();
+
+            // Assert - This is the critical hash code contract test
+            if (areEqual)
+            {
+                hash1.Should().Be(hash2,
+                    "Hash code contract violation: equal objects must have equal hash codes. " +
+                    $"Tolerance: 1e-12, Difference: {diff}, Equal: {areEqual}");
+            }
+
+            // Verify they are indeed equal within tolerance
+            areEqual.Should().BeTrue("Coordinates within tolerance should be equal");
+        }
+
         #endregion
 
 
