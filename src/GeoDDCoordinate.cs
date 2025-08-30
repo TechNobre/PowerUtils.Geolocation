@@ -74,18 +74,19 @@ namespace PowerUtils.Geolocation
         public override int GetHashCode()
         {
             // To maintain hash code consistency with tolerance-based equality,
-            // we need to normalize the values to ensure that coordinates
-            // that are equal within tolerance produce the same hash code.
-            // We round to a precision that's stricter than our tolerance.
-            var normalizedLat = Math.Round(Latitude, 10);
-            var normalizedLon = Math.Round(Longitude, 10);
+            // we use a coarser tolerance for hash code generation (1e-10 vs 1e-12 for equality).
+            // This ensures objects equal within EQUALITY_TOLERANCE have the same hash code
+            // while providing reasonable hash distribution for distinct coordinates.
+            const double HASH_TOLERANCE = 1e-10; // 100x coarser than equality tolerance
+            var quantizedLat = Math.Round(Latitude / HASH_TOLERANCE) * HASH_TOLERANCE;
+            var quantizedLon = Math.Round(Longitude / HASH_TOLERANCE) * HASH_TOLERANCE;
             
             // Use a more compatible hash code combination for older frameworks
             unchecked
             {
                 int hash = 17;
-                hash = hash * 23 + normalizedLat.GetHashCode();
-                hash = hash * 23 + normalizedLon.GetHashCode();
+                hash = hash * 23 + quantizedLat.GetHashCode();
+                hash = hash * 23 + quantizedLon.GetHashCode();
                 return hash;
             }
         }
