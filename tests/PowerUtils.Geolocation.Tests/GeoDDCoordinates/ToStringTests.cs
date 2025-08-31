@@ -1,23 +1,22 @@
 using FluentAssertions;
 using Xunit;
 
-namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
+namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates;
+
+public sealed class ToStringTests
 {
-    public sealed class ToStringTests
+    [Fact]
+    public void Coordinate_ToString_DotAsDecimalSeparator()
     {
-        [Fact]
-        public void Coordinate_ToString_DotAsDecimalSeparator()
-        {
-            // Arrange
-            var coordinate = GeoDDCoordinate.Parse("12,152", "-8,12");
+        // Arrange
+        var coordinate = GeoDDCoordinate.Parse("12,152", "-8,12");
 
 
-            // Act
-            var act = coordinate.ToString();
+        // Act
+        var act = coordinate.ToString();
 
 
-            // Assert
-            act.Should().Be("12.152, -8.12");
-        }
+        // Assert
+        act.Should().Be("12.152, -8.12");
     }
 }

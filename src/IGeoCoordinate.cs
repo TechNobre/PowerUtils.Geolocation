@@ -1,4 +1,3 @@
-﻿namespace PowerUtils.Geolocation
-{
-    public interface IGeoCoordinate { }
-}
+﻿namespace PowerUtils.Geolocation;
+
+public interface IGeoCoordinate { }

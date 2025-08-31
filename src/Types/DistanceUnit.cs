@@ -1,9 +1,8 @@
-﻿namespace PowerUtils.Geolocation.Types
+﻿namespace PowerUtils.Geolocation.Types;
+
+public enum DistanceUnit
 {
-    public enum DistanceUnit
-    {
-        kilometer,
-        Meter,
-        Mile
-    }
+    kilometer,
+    Meter,
+    Mile
 }

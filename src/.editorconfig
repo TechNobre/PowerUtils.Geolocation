@@ -6,9 +6,6 @@
 ###############################
 
 
-# Code-block preferences
-csharp_style_namespace_declarations = block_scoped:suggestion # https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/formatting-rules#csharp_style_namespace_declarations
-
 # Use switch expression (IDE0066)
 csharp_style_prefer_switch_expression = false # https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0066
 
