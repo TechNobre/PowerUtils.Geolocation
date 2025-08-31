@@ -23,8 +23,7 @@ namespace PowerUtils.Geolocation.Tests
 
 
             // Assert
-            act.Should()
-                .Be(distance);
+            act.Should().Be(distance);
         }
 
         [Theory]
@@ -38,8 +37,7 @@ namespace PowerUtils.Geolocation.Tests
 
 
             // Assert
-            act.Should()
-                .Be(distance);
+            act.Should().Be(distance);
         }
     }
 }

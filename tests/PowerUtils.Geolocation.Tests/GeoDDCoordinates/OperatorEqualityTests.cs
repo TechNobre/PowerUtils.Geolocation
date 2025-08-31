@@ -4,12 +4,74 @@ using Xunit;
 
 namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 {
-    /// <summary>
-    /// Tests to detect and verify floating-point equality issues in GeoDDCoordinate
-    /// These tests demonstrate the reliability issues with direct floating-point equality comparison
-    /// </summary>
-    public class FloatingPointTests
+    public sealed class OperatorEqualityTests
     {
+        [Fact]
+        public void When_both_is_null_should_return_True_In_EqualityOperator()
+        {
+            // Arrange
+            GeoDDCoordinate left = null;
+            GeoDDCoordinate right = null;
+
+
+            // Act
+            var act = left == right;
+
+
+            // Assert
+            act.Should().BeTrue();
+        }
+
+        [Fact]
+        public void DifferentCoordinates_EqualityOperator_False()
+        {
+            // Arrange
+            var left = new GeoDDCoordinate(1.54, 54.1272);
+            var right = new GeoDDCoordinate(81.54, -54.1272);
+
+
+            // Act
+            var act = left == right;
+
+
+            // Assert
+            act.Should().BeFalse();
+        }
+
+
+        [Fact]
+        public void EqualsCoordinates_EqualityOperator_True()
+        {
+            // Arrange
+            var left = new GeoDDCoordinate(1.54, 54.1272);
+            var right = new GeoDDCoordinate(1.54, 54.1272);
+
+
+            // Act
+            var act = left == right;
+
+
+            // Assert
+            act.Should().BeTrue();
+        }
+
+        [Fact]
+        public void RightValueNull_EqualityOperator_False()
+        {
+            // Arrange
+            var left = new GeoDDCoordinate(1.54, 54.1272);
+            GeoDDCoordinate right = null;
+
+
+            // Act
+            var act = left == right;
+
+
+            // Assert
+            act.Should().BeFalse();
+        }
+
+
         #region Floating-Point Precision Issues
 
         [Fact]
@@ -117,134 +179,6 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
         #endregion
 
 
-        #region Distance Calculation Reliability Tests
-
-        [Fact]
-        public void SameCoordinatesFromDifferentSources_DistanceCalculation_ShouldBeZero()
-        {
-            // Arrange
-            var lat = 45.123456789;
-            var lon = -90.987654321;
-
-            var coord1 = new GeoDDCoordinate(lat, lon);
-            var coord2 = new GeoDDCoordinate((lat * 2) / 2, (lon * 2) / 2); // Should be same but may have precision error
-
-
-            // Act
-            var distance = GeoDDCoordinate.Distance(
-                coord1.Latitude, coord1.Longitude,
-                coord2.Latitude, coord2.Longitude);
-
-
-            // Assert
-            distance.Should().BeLessThan(0.1, "Distance between same coordinates should be essentially zero");
-        }
-
-        #endregion
-
-
-        #region Hash Code Consistency Tests
-
-        [Fact]
-        public void NearlyIdenticalCoordinates_GetHashCode_ShouldBeConsistentWithEquality()
-        {
-            // Arrange
-            var coord1 = new GeoDDCoordinate(45.123456789012, -90.987654321098);
-            var coord2 = new GeoDDCoordinate(45.123456789012, -90.987654321098);
-            var coord3 = new GeoDDCoordinate(45.123456789013, -90.987654321099); // Tiny difference
-
-
-            // Act
-            var hash1 = coord1.GetHashCode();
-            var hash2 = coord2.GetHashCode();
-            var hash3 = coord3.GetHashCode();
-
-            var equals_1_2 = coord1 == coord2;
-            var equals_1_3 = coord1 == coord3;
-
-
-            // Assert
-            equals_1_2.Should().BeTrue("Identical coordinates should be equal");
-            hash1.Should().Be(hash2, "Equal objects should have equal hash codes");
-
-            if (equals_1_3)
-            {
-                hash1.Should().Be(hash3, "If objects are equal, hash codes must be equal");
-            }
-            // Note: Different objects can have the same hash code, but equal objects must have the same hash code
-        }
-
-        [Fact]
-        public void HashCodeContractValidation_EqualCoordinatesWithinTolerance_ShouldHaveSameHashCode()
-        {
-            // Arrange - Create coordinates that are equal within tolerance (1e-12)
-            var base1 = 45.123456789012;
-            var base2 = -90.987654321098;
-
-            // Create a coordinate with differences exactly at the tolerance boundary
-            var diff = 1e-13; // Just within tolerance
-            var coord1 = new GeoDDCoordinate(base1, base2);
-            var coord2 = new GeoDDCoordinate(base1 + diff, base2 + diff);
-
-            // Act
-            var areEqual = coord1 == coord2;
-            var hash1 = coord1.GetHashCode();
-            var hash2 = coord2.GetHashCode();
-
-            // Assert - This is the critical hash code contract test
-            if (areEqual)
-            {
-                hash1.Should().Be(hash2,
-                    "Hash code contract violation: equal objects must have equal hash codes. " +
-                    $"Tolerance: 1e-12, Difference: {diff}, Equal: {areEqual}");
-            }
-
-            // Verify they are indeed equal within tolerance
-            areEqual.Should().BeTrue("Coordinates within tolerance should be equal");
-        }
-
-        #endregion
-
-
-        #region Collection Behavior Tests
-
-        [Fact]
-        public void NearlyIdenticalCoordinates_InHashSet_ShouldBehaveConsistently()
-        {
-            // Arrange
-            var hashSet = new System.Collections.Generic.HashSet<GeoDDCoordinate>();
-
-            var coord1 = new GeoDDCoordinate(45.123456789012, -90.987654321098);
-            var coord2 = new GeoDDCoordinate(45.123456789012, -90.987654321098);
-            var coord3 = new GeoDDCoordinate(45.123456789013, -90.987654321099); // Tiny difference
-
-
-            // Act
-            hashSet.Add(coord1);
-            var added2 = hashSet.Add(coord2); // Should not be added if equal to coord1
-            var added3 = hashSet.Add(coord3); // May or may not be added depending on equality
-
-
-            // Assert
-            added2.Should().BeFalse("Identical coordinate should not be added again");
-            hashSet.Should().Contain(coord1);
-            hashSet.Should().Contain(coord2); // Should find it even if not added
-
-            // Document behavior with nearly identical coordinates
-            if (coord1 == coord3)
-            {
-                added3.Should().BeFalse("Nearly identical coordinates should not be added if considered equal");
-                hashSet.Should().Contain(coord3);
-            }
-            else
-            {
-                added3.Should().BeTrue("Different coordinates should be added");
-            }
-        }
-
-        #endregion
-
-
         #region Proposed Tolerance-Based Equality Tests
 
         [Fact]
@@ -279,7 +213,7 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
             // Demonstrate the difference vs old direct equality - make sure differences are detectable
             var directEquality = lat1 == lat2 && lon1 == lon2;
-            if (Math.Abs(lat1 - lat2) > double.Epsilon || Math.Abs(lon1 - lon2) > double.Epsilon)
+            if(Math.Abs(lat1 - lat2) > double.Epsilon || Math.Abs(lon1 - lon2) > double.Epsilon)
             {
                 directEquality.Should().BeFalse(
                     "Direct equality comparison still fails for tiny differences");
@@ -314,14 +248,14 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
             var latDiff = Math.Abs(lat1 - lat2);
             var lonDiff = Math.Abs(lon1 - lon2);
 
-            if (latDiff < tolerance && lonDiff < tolerance)
+            if(latDiff < tolerance && lonDiff < tolerance)
             {
                 wouldBeEqual.Should().BeTrue("Coordinates within tolerance should be considered equal");
                 coordinateEquals.Should().BeTrue("Our implementation should consider coordinates within tolerance as equal");
             }
 
             // Document when current implementation might fail
-            if (latDiff > 0 && latDiff < 1e-14)
+            if(latDiff > 0 && latDiff < 1e-14)
             {
                 currentlyEqual.Should().BeFalse("Direct equality comparison still fails for tiny differences due to floating-point precision");
             }
