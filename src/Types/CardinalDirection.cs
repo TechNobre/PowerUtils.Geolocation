@@ -1,10 +1,9 @@
-﻿namespace PowerUtils.Geolocation.Types
+﻿namespace PowerUtils.Geolocation.Types;
+
+public enum CardinalDirection
 {
-    public enum CardinalDirection
-    {
-        North,
-        South,
-        East,
-        West,
-    }
+    North,
+    South,
+    East,
+    West,
 }

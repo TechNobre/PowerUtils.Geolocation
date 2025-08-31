@@ -1,304 +1,303 @@
 ﻿using System;
-using PowerUtils.Geolocation.Exceptions;
 using System.Text.Json.Serialization;
+using PowerUtils.Geolocation.Exceptions;
 
-namespace PowerUtils.Geolocation
+namespace PowerUtils.Geolocation;
+
+/// <summary>
+/// Decimal degree coordinate
+/// </summary>
+public class GeoDDCoordinate :
+    IGeoCoordinate,
+    IEquatable<GeoDDCoordinate>,
+    ICloneable
 {
     /// <summary>
-    /// Decimal degree coordinate
+    /// Tolerance for floating-point equality comparisons in geographical coordinates.
+    /// This tolerance of 1e-12 degrees provides approximately 0.1mm precision at the equator.
     /// </summary>
-    public class GeoDDCoordinate :
-        IGeoCoordinate,
-        IEquatable<GeoDDCoordinate>,
-        ICloneable
+    private const double EQUALITY_TOLERANCE = 1e-12;
+
+    public double Latitude => Coordinate[0];
+    public double Longitude => Coordinate[1];
+
+    [JsonIgnore]
+    public double[] Coordinate { get; private set; }
+
+    #region CONSTRUCTOR & DECONSTRUCT
+    /// <summary>
+    /// Create a GeoDDCoordinate
+    /// </summary>
+    /// <param name="latitude">Degree for latitude</param>
+    /// <param name="longitude">Degree for longitude</param>
+    /// <exception cref="MinLatitudeException">The <paramref name="latitude">latitude</paramref> has a latitude is small.</exception>
+    /// <exception cref="MaxLatitudeException">The <paramref name="latitude">latitude</paramref> has a latitude is large.</exception>
+    /// <exception cref="MinLongitudeException">The <paramref name="longitude">longitude</paramref> has a longitude is small.</exception>
+    /// <exception cref="MaxLongitudeException">The <paramref name="longitude">longitude</paramref> has a longitude is large.</exception>
+    public GeoDDCoordinate(double latitude, double longitude)
+        => Coordinate = new double[]
+        {
+            GuardGeolocation.Against.Latitude(latitude),
+            GuardGeolocation.Against.Longitude(longitude)
+        };
+
+    /// <summary>
+    /// Deconstruct GeoDDCoordinate to double latitude and double longitude
+    /// </summary>
+    /// <param name="latitude"></param>
+    /// <param name="longitude"></param>
+    public void Deconstruct(out double latitude, out double longitude)
     {
-        /// <summary>
-        /// Tolerance for floating-point equality comparisons in geographical coordinates.
-        /// This tolerance of 1e-12 degrees provides approximately 0.1mm precision at the equator.
-        /// </summary>
-        private const double EQUALITY_TOLERANCE = 1e-12;
+        latitude = Latitude;
+        longitude = Longitude;
+    }
 
-        public double Latitude => Coordinate[0];
-        public double Longitude => Coordinate[1];
+    /// <summary>
+    /// Create a new object 'GeoDDCoordinate' with the same data
+    /// </summary>
+    /// <returns></returns>
+    public object Clone()
+        => new GeoDDCoordinate(Latitude, Longitude);
+    #endregion
 
-        [JsonIgnore]
-        public double[] Coordinate { get; private set; }
 
-        #region CONSTRUCTOR & DECONSTRUCT
-        /// <summary>
-        /// Create a GeoDDCoordinate
-        /// </summary>
-        /// <param name="latitude">Degree for latitude</param>
-        /// <param name="longitude">Degree for longitude</param>
-        /// <exception cref="MinLatitudeException">The <paramref name="latitude">latitude</paramref> has a latitude is small.</exception>
-        /// <exception cref="MaxLatitudeException">The <paramref name="latitude">latitude</paramref> has a latitude is large.</exception>
-        /// <exception cref="MinLongitudeException">The <paramref name="longitude">longitude</paramref> has a longitude is small.</exception>
-        /// <exception cref="MaxLongitudeException">The <paramref name="longitude">longitude</paramref> has a longitude is large.</exception>
-        public GeoDDCoordinate(double latitude, double longitude)
-            => Coordinate = new double[]
-            {
-                GuardGeolocation.Against.Latitude(latitude),
-                GuardGeolocation.Against.Longitude(longitude)
-            };
 
-        /// <summary>
-        /// Deconstruct GeoDDCoordinate to double latitude and double longitude
-        /// </summary>
-        /// <param name="latitude"></param>
-        /// <param name="longitude"></param>
-        public void Deconstruct(out double latitude, out double longitude)
+    #region OVERRIDES
+    public override string ToString()
+        => $"{_formatString(Latitude)}, {_formatString(Longitude)}";
+
+    public override int GetHashCode()
+    {
+        // To maintain hash code consistency with tolerance-based equality,
+        // we use a coarser tolerance for hash code generation (1e-10 vs 1e-12 for equality).
+        // This ensures objects equal within EQUALITY_TOLERANCE have the same hash code
+        // while providing reasonable hash distribution for distinct coordinates.
+        const double HASH_TOLERANCE = 1e-10; // 100x coarser than equality tolerance
+        var quantizedLat = Math.Round(Latitude / HASH_TOLERANCE) * HASH_TOLERANCE;
+        var quantizedLon = Math.Round(Longitude / HASH_TOLERANCE) * HASH_TOLERANCE;
+
+        // Use a more compatible hash code combination for older frameworks
+        unchecked
         {
-            latitude = Latitude;
-            longitude = Longitude;
+            var hash = 17;
+            hash = (hash * 23) + quantizedLat.GetHashCode();
+            hash = (hash * 23) + quantizedLon.GetHashCode();
+            return hash;
+        }
+    }
+    #endregion
+
+
+
+    #region COMPARISON
+    public static bool operator ==(GeoDDCoordinate left, GeoDDCoordinate right)
+    {
+        // Handle null comparisons
+        if(left is null && right is null)
+        {
+            return true;
         }
 
-        /// <summary>
-        /// Create a new object 'GeoDDCoordinate' with the same data
-        /// </summary>
-        /// <returns></returns>
-        public object Clone()
-            => new GeoDDCoordinate(Latitude, Longitude);
-        #endregion
-
-
-
-        #region OVERRIDES
-        public override string ToString()
-            => $"{_formatString(Latitude)}, {_formatString(Longitude)}";
-
-        public override int GetHashCode()
+        if(left is null || right is null)
         {
-            // To maintain hash code consistency with tolerance-based equality,
-            // we use a coarser tolerance for hash code generation (1e-10 vs 1e-12 for equality).
-            // This ensures objects equal within EQUALITY_TOLERANCE have the same hash code
-            // while providing reasonable hash distribution for distinct coordinates.
-            const double HASH_TOLERANCE = 1e-10; // 100x coarser than equality tolerance
-            var quantizedLat = Math.Round(Latitude / HASH_TOLERANCE) * HASH_TOLERANCE;
-            var quantizedLon = Math.Round(Longitude / HASH_TOLERANCE) * HASH_TOLERANCE;
-
-            // Use a more compatible hash code combination for older frameworks
-            unchecked
-            {
-                var hash = 17;
-                hash = hash * 23 + quantizedLat.GetHashCode();
-                hash = hash * 23 + quantizedLon.GetHashCode();
-                return hash;
-            }
-        }
-        #endregion
-
-
-
-        #region COMPARISON
-        public static bool operator ==(GeoDDCoordinate left, GeoDDCoordinate right)
-        {
-            // Handle null comparisons
-            if (left is null && right is null)
-            {
-                return true;
-            }
-
-            if (left is null || right is null)
-            {
-                return false;
-            }
-
-            // Use tolerance-based comparison for floating-point reliability
-            return Math.Abs(left.Latitude - right.Latitude) < EQUALITY_TOLERANCE
-                && Math.Abs(left.Longitude - right.Longitude) < EQUALITY_TOLERANCE;
+            return false;
         }
 
-        public static bool operator !=(GeoDDCoordinate left, GeoDDCoordinate right)
-            => !(left == right);
+        // Use tolerance-based comparison for floating-point reliability
+        return Math.Abs(left.Latitude - right.Latitude) < EQUALITY_TOLERANCE
+            && Math.Abs(left.Longitude - right.Longitude) < EQUALITY_TOLERANCE;
+    }
 
-        public virtual bool Equals(GeoDDCoordinate other)
+    public static bool operator !=(GeoDDCoordinate left, GeoDDCoordinate right)
+        => !(left == right);
+
+    public virtual bool Equals(GeoDDCoordinate other)
+    {
+        if(other is null)
         {
-            if(other is null)
-            {
-                return false;
-            }
-
-            return this == other;
+            return false;
         }
 
-        public override bool Equals(object obj)
-            => Equals(obj as GeoDDCoordinate);
-        #endregion
+        return this == other;
+    }
+
+    public override bool Equals(object obj)
+        => Equals(obj as GeoDDCoordinate);
+    #endregion
 
 
 
-        #region IMPLICIT OPERATOR
-        public static implicit operator string(GeoDDCoordinate coordinate)
-            => coordinate.ToString();
+    #region IMPLICIT OPERATOR
+    public static implicit operator string(GeoDDCoordinate coordinate)
+        => coordinate.ToString();
 
-        public static implicit operator GeoDDCoordinate(string coordinate)
-            => Parse(coordinate);
-        #endregion
+    public static implicit operator GeoDDCoordinate(string coordinate)
+        => Parse(coordinate);
+    #endregion
 
 
 
-        #region PARSES
-        /// <summary>
-        /// Create a GeoDDCoordinate from latitude and longitude strings
-        /// </summary>
-        /// <param name="latitude">Degree for latitude</param>
-        /// <param name="longitude">Degree for longitude</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="latitude">latitude</paramref> parameter is null.</exception>
-        /// <exception cref="ArgumentNullException">The <paramref name="longitude">longitude</paramref> parameter is null.</exception>
-        /// <exception cref="InvalidCoordinateException">The <paramref name="latitude">latitude</paramref> is not formatted correctly.</exception>
-        /// <exception cref="InvalidCoordinateException">The <paramref name="longitude">longitude</paramref> is not formatted correctly.</exception>
-        /// <exception cref="MinLatitudeException">The <paramref name="latitude">latitude</paramref> has a latitude is small.</exception>
-        /// <exception cref="MaxLatitudeException">The <paramref name="latitude">latitude</paramref> has a latitude is large.</exception>
-        /// <exception cref="MinLongitudeException">The <paramref name="longitude">longitude</paramref> has a longitude is small.</exception>
-        /// <exception cref="MaxLongitudeException">The <paramref name="longitude">longitude</paramref> has a longitude is large.</exception>
-        /// <returns>GeoDDCoordinate</returns>
-        public static GeoDDCoordinate Parse(string latitude, string longitude)
+    #region PARSES
+    /// <summary>
+    /// Create a GeoDDCoordinate from latitude and longitude strings
+    /// </summary>
+    /// <param name="latitude">Degree for latitude</param>
+    /// <param name="longitude">Degree for longitude</param>
+    /// <exception cref="ArgumentNullException">The <paramref name="latitude">latitude</paramref> parameter is null.</exception>
+    /// <exception cref="ArgumentNullException">The <paramref name="longitude">longitude</paramref> parameter is null.</exception>
+    /// <exception cref="InvalidCoordinateException">The <paramref name="latitude">latitude</paramref> is not formatted correctly.</exception>
+    /// <exception cref="InvalidCoordinateException">The <paramref name="longitude">longitude</paramref> is not formatted correctly.</exception>
+    /// <exception cref="MinLatitudeException">The <paramref name="latitude">latitude</paramref> has a latitude is small.</exception>
+    /// <exception cref="MaxLatitudeException">The <paramref name="latitude">latitude</paramref> has a latitude is large.</exception>
+    /// <exception cref="MinLongitudeException">The <paramref name="longitude">longitude</paramref> has a longitude is small.</exception>
+    /// <exception cref="MaxLongitudeException">The <paramref name="longitude">longitude</paramref> has a longitude is large.</exception>
+    /// <returns>GeoDDCoordinate</returns>
+    public static GeoDDCoordinate Parse(string latitude, string longitude)
+    {
+        var dLatitude = GuardGeolocation.Against
+            .Latitude(latitude.ToDDPoint());
+
+        var dLongitude = GuardGeolocation.Against
+            .Longitude(longitude.ToDDPoint());
+
+
+        return new GeoDDCoordinate(dLatitude, dLongitude);
+    }
+
+    /// <summary>
+    /// Create a GeoDDCoordinate from strings
+    /// </summary>
+    /// <param name="coordinate">GeoDDCoordinate</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException">The <paramref name="coordinate">coordinate</paramref> parameter is null.</exception>
+    /// <exception cref="InvalidCoordinateException">The <paramref name="coordinate">coordinate</paramref> is not formatted correctly.</exception>
+    public static GeoDDCoordinate Parse(string coordinate)
+    {
+        if(coordinate == null)
         {
-            var dLatitude = GuardGeolocation.Against
-                .Latitude(latitude.ToDDPoint());
-
-            var dLongitude = GuardGeolocation.Against
-                .Longitude(longitude.ToDDPoint());
-
-
-            return new GeoDDCoordinate(dLatitude, dLongitude);
+            throw new ArgumentNullException(nameof(coordinate));
         }
 
-        /// <summary>
-        /// Create a GeoDDCoordinate from strings
-        /// </summary>
-        /// <param name="coordinate">GeoDDCoordinate</param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentNullException">The <paramref name="coordinate">coordinate</paramref> parameter is null.</exception>
-        /// <exception cref="InvalidCoordinateException">The <paramref name="coordinate">coordinate</paramref> is not formatted correctly.</exception>
-        public static GeoDDCoordinate Parse(string coordinate)
+
+        var aux = coordinate.Split(',');
+        if(aux.Length == 2)
         {
-            if(coordinate == null)
+            try
             {
-                throw new ArgumentNullException(nameof(coordinate));
+                var latitude = aux[0].ToDDPoint();
+                var longitude = aux[1].ToDDPoint();
+
+                return new GeoDDCoordinate(latitude, longitude);
             }
-
-
-            var aux = coordinate.Split(',');
-            if(aux.Length == 2)
-            {
-                try
-                {
-                    var latitude = aux[0].ToDDPoint();
-                    var longitude = aux[1].ToDDPoint();
-
-                    return new GeoDDCoordinate(latitude, longitude);
-                }
-                catch
-                {
-                    throw new InvalidCoordinateException(coordinate);
-                }
-            }
-            else
+            catch
             {
                 throw new InvalidCoordinateException(coordinate);
             }
         }
-
-        /// <summary>
-        /// Create a GeoDDCoordinate from latitude and longitude strings
-        /// </summary>
-        /// <param name="latitude">Degree for latitude</param>
-        /// <param name="longitude">Degree for longitude</param>
-        /// <param name="result">Object GeoDDCoordinate with result</param>
-        /// <returns>True if parsed successfully</returns>
-        public static bool TryParse(string latitude, string longitude, out GeoDDCoordinate result)
+        else
         {
-            try
-            {
-                result = Parse(latitude, longitude);
-
-                return true;
-            }
-            catch
-            {
-                result = null;
-
-                return false;
-            }
+            throw new InvalidCoordinateException(coordinate);
         }
-
-        /// <summary>
-        /// Create a GeoDDCoordinate from strings
-        /// </summary>
-        /// <param name="coordinate">String coordinate to parse</param>
-        /// <param name="result">Object GeoDDCoordinate with result</param>
-        /// <returns>True if parsed successfully</returns>
-        public static bool TryParse(string coordinate, out GeoDDCoordinate result)
-        {
-            try
-            {
-                result = Parse(coordinate);
-
-                return true;
-            }
-            catch
-            {
-                result = null;
-
-                return false;
-            }
-        }
-        #endregion
-
-
-
-        #region DISTANCE METHODS
-        /// <summary>
-        /// Calculate Distance between two coordinates (Meter). Using the formula Haversine Formula.
-        /// </summary>
-        /// <param name="latitude1">Latitude 1</param>
-        /// <param name="longitude1">Longitude 1</param>
-        /// <param name="latitude2">Latitude 2</param>
-        /// <param name="longitude2">Longitude 2</param>
-        /// <param name="decimals">The number of decimal places in the return distance (Default: 0)</param>
-        /// <returns>Distance in Meters</returns>
-        public static double Distance(double latitude1, double longitude1, double latitude2, double longitude2, int decimals = 0)
-            => Math.Round(PreciseDistance(
-                    latitude1, longitude1,
-                    latitude2, longitude2),
-                decimals);
-
-        /// <summary>
-        /// Calculate Distance between two coordinates (Meter) without round. Using the formula Haversine Formula.
-        /// </summary>
-        /// <param name="latitude1">Latitude 1</param>
-        /// <param name="longitude1">Longitude 1</param>
-        /// <param name="latitude2">Latitude 2</param>
-        /// <param name="longitude2">Longitude 2</param>
-        /// <returns>Distance in Meters</returns>
-        public static double PreciseDistance(double latitude1, double longitude1, double latitude2, double longitude2)
-        {
-            var latitude1Radian = latitude1.ToRadian();
-            var longitude1Radian = longitude1.ToRadian();
-            var latitude2Radian = latitude2.ToRadian();
-            var longitude2Radian = longitude2.ToRadian();
-
-            var deltaLongitude = longitude2Radian - longitude1Radian;
-            var deltaLatitude = latitude2Radian - latitude1Radian;
-
-            // Intermediate result a.
-            var step1 = Math.Pow(Math.Sin(deltaLatitude / 2.0), 2.0) +
-                        (Math.Cos(latitude1Radian) * Math.Cos(latitude2Radian) *
-                        Math.Pow(Math.Sin(deltaLongitude / 2.0), 2.0));
-
-
-            // Intermediate result c (great circle distance in Radians)
-            var step2 = 2.0 * Math.Atan2(Math.Sqrt(step1), Math.Sqrt(1.0 - step1));
-
-
-            return Constants.EARTH_RADIUS_METER * step2;
-        }
-        #endregion
-
-
-
-        private static string _formatString(double degree)
-            => degree.ToString().Replace(",", ".");
     }
+
+    /// <summary>
+    /// Create a GeoDDCoordinate from latitude and longitude strings
+    /// </summary>
+    /// <param name="latitude">Degree for latitude</param>
+    /// <param name="longitude">Degree for longitude</param>
+    /// <param name="result">Object GeoDDCoordinate with result</param>
+    /// <returns>True if parsed successfully</returns>
+    public static bool TryParse(string latitude, string longitude, out GeoDDCoordinate result)
+    {
+        try
+        {
+            result = Parse(latitude, longitude);
+
+            return true;
+        }
+        catch
+        {
+            result = null;
+
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Create a GeoDDCoordinate from strings
+    /// </summary>
+    /// <param name="coordinate">String coordinate to parse</param>
+    /// <param name="result">Object GeoDDCoordinate with result</param>
+    /// <returns>True if parsed successfully</returns>
+    public static bool TryParse(string coordinate, out GeoDDCoordinate result)
+    {
+        try
+        {
+            result = Parse(coordinate);
+
+            return true;
+        }
+        catch
+        {
+            result = null;
+
+            return false;
+        }
+    }
+    #endregion
+
+
+
+    #region DISTANCE METHODS
+    /// <summary>
+    /// Calculate Distance between two coordinates (Meter). Using the formula Haversine Formula.
+    /// </summary>
+    /// <param name="latitude1">Latitude 1</param>
+    /// <param name="longitude1">Longitude 1</param>
+    /// <param name="latitude2">Latitude 2</param>
+    /// <param name="longitude2">Longitude 2</param>
+    /// <param name="decimals">The number of decimal places in the return distance (Default: 0)</param>
+    /// <returns>Distance in Meters</returns>
+    public static double Distance(double latitude1, double longitude1, double latitude2, double longitude2, int decimals = 0)
+        => Math.Round(PreciseDistance(
+                latitude1, longitude1,
+                latitude2, longitude2),
+            decimals);
+
+    /// <summary>
+    /// Calculate Distance between two coordinates (Meter) without round. Using the formula Haversine Formula.
+    /// </summary>
+    /// <param name="latitude1">Latitude 1</param>
+    /// <param name="longitude1">Longitude 1</param>
+    /// <param name="latitude2">Latitude 2</param>
+    /// <param name="longitude2">Longitude 2</param>
+    /// <returns>Distance in Meters</returns>
+    public static double PreciseDistance(double latitude1, double longitude1, double latitude2, double longitude2)
+    {
+        var latitude1Radian = latitude1.ToRadian();
+        var longitude1Radian = longitude1.ToRadian();
+        var latitude2Radian = latitude2.ToRadian();
+        var longitude2Radian = longitude2.ToRadian();
+
+        var deltaLongitude = longitude2Radian - longitude1Radian;
+        var deltaLatitude = latitude2Radian - latitude1Radian;
+
+        // Intermediate result a.
+        var step1 = Math.Pow(Math.Sin(deltaLatitude / 2.0), 2.0) +
+                    (Math.Cos(latitude1Radian) * Math.Cos(latitude2Radian) *
+                    Math.Pow(Math.Sin(deltaLongitude / 2.0), 2.0));
+
+
+        // Intermediate result c (great circle distance in Radians)
+        var step2 = 2.0 * Math.Atan2(Math.Sqrt(step1), Math.Sqrt(1.0 - step1));
+
+
+        return Constants.EARTH_RADIUS_METER * step2;
+    }
+    #endregion
+
+
+
+    private static string _formatString(double degree)
+        => degree.ToString().Replace(",", ".");
 }

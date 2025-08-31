@@ -1,8 +1,7 @@
-﻿namespace PowerUtils.Geolocation.Types
+﻿namespace PowerUtils.Geolocation.Types;
+
+public enum GeographicalOrientation
 {
-    public enum GeographicalOrientation
-    {
-        Latitude,
-        Longitude
-    }
+    Latitude,
+    Longitude
 }
