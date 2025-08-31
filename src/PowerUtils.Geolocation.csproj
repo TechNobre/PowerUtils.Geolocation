@@ -3,7 +3,7 @@
   <PropertyGroup>
     <ProjectGuid>67b47aa4-5f1b-40a8-83cd-eeb411aacfe8</ProjectGuid>
 
-    <TargetFrameworks>net9.0;net8.0;net7.0;net6.0;net5.0;netcoreapp3.1;netstandard2.1;net48;net462</TargetFrameworks>
+    <TargetFrameworks>net9.0;net8.0;net7.0;net6.0</TargetFrameworks>
 
     <AssemblyName>PowerUtils.Geolocation</AssemblyName>
     <RootNamespace>PowerUtils.Geolocation</RootNamespace>
@@ -82,11 +82,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
-
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net462' or '$(TargetFramework)' == 'net48' or '$(TargetFramework)' == 'netstandard2.1'">
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
 

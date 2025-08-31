@@ -18,7 +18,6 @@
 
 
 - [Support to ](#support-to-)
-- [Dependencies ](#dependencies-)
 - [How to use ](#how-to-use-)
   - [Install NuGet package](#install-nuget-package)
   - [Exceptions ](#exceptions-)
@@ -65,16 +64,6 @@
 - .NET 8.0
 - .NET 7.0
 - .NET 6.0
-- .NET 5.0
-- .NET 3.1
-- .NET Standard 2.1
-- .NET Framework 4.6.2 or more
-
-
-
-## Dependencies <a name="dependencies"></a>
-
-- Newtonsoft.Json [NuGet](https://www.nuget.org/packages/Newtonsoft.Json/) *(.NET Framework 4.6.2 | .NET Framework 4.8 | .NET Standard 2.1)*
 
 
 

@@ -87,7 +87,7 @@ body:
     id: framework-version-used
     attributes:
       label: Targeted .NET Platform
-      placeholder: .NET6.0, .NET5.0 .NET Core 3.1, .NET Framework 4.7, etc.
+      placeholder: .NET 9.0, .NET 8.0, .NET 7.0, .NET 6.0, etc.
     validations:
       required: true
 
