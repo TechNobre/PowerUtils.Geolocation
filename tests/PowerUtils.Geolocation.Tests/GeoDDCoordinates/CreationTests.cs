@@ -1,4 +1,4 @@
-using FluentAssertions;
+using AwesomeAssertions;
 using PowerUtils.Geolocation.Exceptions;
 using Xunit;
 
