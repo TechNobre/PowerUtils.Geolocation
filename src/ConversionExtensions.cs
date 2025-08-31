@@ -42,6 +42,7 @@ public static class ConversionExtensions
 
 
 
+    private static readonly char[] _splitChars = new char[] { '.', ',' };
     /// <summary>
     /// Convert decimal degree point (string) to decimal degree point (double)
     /// </summary>
@@ -56,30 +57,27 @@ public static class ConversionExtensions
             throw new ArgumentNullException(nameof(ddPoint), "The value cannot be null");
         }
 
-        var aux = ddPoint.Split(new char[] { '.', ',' });
+        var aux = ddPoint.Split(_splitChars);
 
         try
         {
             if(aux.Length == 1)
             {
-                return double.Parse(aux[0].Replace(" ", ""));
+                return double.Parse(aux[0]);
             }
 
             if(aux.Length == 2)
             {
                 var sb = new StringBuilder();
-                sb.Append(aux[0].Replace(" ", ""));
+                sb.Append(aux[0]);
                 sb.Append(System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator);
                 sb.Append(aux[1]);
 
                 return double.Parse(sb.ToString());
             }
+        }
+        catch { }
 
-            throw new InvalidCoordinateException(ddPoint);
-        }
-        catch
-        {
-            throw new InvalidCoordinateException(ddPoint);
-        }
+        throw new InvalidCoordinateException(ddPoint);
     }
 }
