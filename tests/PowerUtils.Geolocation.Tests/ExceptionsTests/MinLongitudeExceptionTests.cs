@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Runtime.Serialization;
-using AwesomeAssertions;
+﻿using AwesomeAssertions;
 using PowerUtils.Geolocation.Exceptions;
 using Xunit;
 
@@ -10,44 +7,18 @@ namespace PowerUtils.Geolocation.Tests.ExceptionsTests;
 public class MinLongitudeExceptionTests
 {
     [Fact]
-    public void MinLongitudeException_SerializeDeserialize_Equivalent()
+    public void Validate_exception_message_of_MinLongitudeException()
     {
         // Arrange
-        var exception = new MinLongitudeException(-1000);
+        var coordinate = -180.1;
 
 
         // Act
-        Exception act;
-        using(var memoryStream = new MemoryStream())
-        {
-            var dataContractSerializer = new DataContractSerializer(typeof(MinLongitudeException));
-
-            dataContractSerializer.WriteObject(memoryStream, exception);
-
-            memoryStream.Seek(0, SeekOrigin.Begin);
-
-            act = (MinLongitudeException)dataContractSerializer.ReadObject(memoryStream);
-        }
+        var act = new MinLongitudeException(coordinate);
 
 
         // Assert
-        act.Should()
-            .BeEquivalentTo(exception);
-    }
-
-    [Fact]
-    public void NullInfo_GetObjectData_ArgumentNullException()
-    {
-        // Arrange
-        var exception = new MinLongitudeException(1.12);
-
-
-        // Act
-        var act = Record.Exception(() => exception.GetObjectData(null, new StreamingContext()));
-
-
-        // Assert
-        act.Should()
-            .BeOfType<ArgumentNullException>();
+        act.Should().BeOfType<MinLongitudeException>()
+            .Which.Message.Should().Be("The minimum longitude is -180. Value '-180.1'");
     }
 }

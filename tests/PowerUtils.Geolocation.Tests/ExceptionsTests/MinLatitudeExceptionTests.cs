@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Runtime.Serialization;
-using AwesomeAssertions;
+﻿using AwesomeAssertions;
 using PowerUtils.Geolocation.Exceptions;
 using Xunit;
 
@@ -10,44 +7,18 @@ namespace PowerUtils.Geolocation.Tests.ExceptionsTests;
 public class MinLatitudeExceptionTests
 {
     [Fact]
-    public void MinLatitudeException_SerializeDeserialize_Equivalent()
+    public void Validate_exception_message_of_MinLatitudeException()
     {
         // Arrange
-        var exception = new MinLatitudeException(-1000);
+        var coordinate = -90.1;
 
 
         // Act
-        Exception act;
-        using(var memoryStream = new MemoryStream())
-        {
-            var dataContractSerializer = new DataContractSerializer(typeof(MinLatitudeException));
-
-            dataContractSerializer.WriteObject(memoryStream, exception);
-
-            memoryStream.Seek(0, SeekOrigin.Begin);
-
-            act = (MinLatitudeException)dataContractSerializer.ReadObject(memoryStream);
-        }
+        var act = new MinLatitudeException(coordinate);
 
 
         // Assert
-        act.Should()
-            .BeEquivalentTo(exception);
-    }
-
-    [Fact]
-    public void NullInfo_GetObjectData_ArgumentNullException()
-    {
-        // Arrange
-        var exception = new MinLatitudeException(1.12);
-
-
-        // Act
-        var act = Record.Exception(() => exception.GetObjectData(null, new StreamingContext()));
-
-
-        // Assert
-        act.Should()
-            .BeOfType<ArgumentNullException>();
+        act.Should().BeOfType<MinLatitudeException>()
+            .Which.Message.Should().Be("The minimum latitude is -90. Value '-90.1'");
     }
 }

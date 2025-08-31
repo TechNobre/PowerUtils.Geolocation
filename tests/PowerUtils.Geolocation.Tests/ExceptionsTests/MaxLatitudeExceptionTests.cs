@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Runtime.Serialization;
-using AwesomeAssertions;
+﻿using AwesomeAssertions;
 using PowerUtils.Geolocation.Exceptions;
 using Xunit;
 
@@ -10,44 +7,18 @@ namespace PowerUtils.Geolocation.Tests.ExceptionsTests;
 public class MaxLatitudeExceptionTests
 {
     [Fact]
-    public void MaxLatitudeException_SerializeDeserialize_Equivalent()
+    public void Validate_exception_message_of_MaxLatitudeException()
     {
         // Arrange
-        var exception = new MaxLatitudeException(1000);
+        var coordinate = 90.1;
 
 
         // Act
-        Exception act;
-        using(var memoryStream = new MemoryStream())
-        {
-            var dataContractSerializer = new DataContractSerializer(typeof(MaxLatitudeException));
-
-            dataContractSerializer.WriteObject(memoryStream, exception);
-
-            memoryStream.Seek(0, SeekOrigin.Begin);
-
-            act = (MaxLatitudeException)dataContractSerializer.ReadObject(memoryStream);
-        }
+        var act = new MaxLatitudeException(coordinate);
 
 
         // Assert
-        act.Should()
-            .BeEquivalentTo(exception);
-    }
-
-    [Fact]
-    public void NullInfo_GetObjectData_ArgumentNullException()
-    {
-        // Arrange
-        var exception = new MaxLatitudeException(1.12);
-
-
-        // Act
-        var act = Record.Exception(() => exception.GetObjectData(null, new StreamingContext()));
-
-
-        // Assert
-        act.Should()
-            .BeOfType<ArgumentNullException>();
+        act.Should().BeOfType<MaxLatitudeException>()
+            .Which.Message.Should().Be("The maximum latitude is 90. Value '90.1'");
     }
 }
