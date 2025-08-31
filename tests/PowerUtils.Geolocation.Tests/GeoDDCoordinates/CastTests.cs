@@ -1,4 +1,4 @@
-using FluentAssertions;
+using AwesomeAssertions;
 using Xunit;
 
 namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates;

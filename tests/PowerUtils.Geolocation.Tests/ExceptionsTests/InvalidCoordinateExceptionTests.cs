@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.Serialization;
-using FluentAssertions;
+using AwesomeAssertions;
 using PowerUtils.Geolocation.Exceptions;
 using Xunit;
 
