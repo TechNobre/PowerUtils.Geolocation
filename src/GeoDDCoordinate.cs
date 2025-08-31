@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Text.Json.Serialization;
 using PowerUtils.Geolocation.Exceptions;
 
@@ -12,11 +13,6 @@ public class GeoDDCoordinate :
     IEquatable<GeoDDCoordinate>,
     ICloneable
 {
-    /// <summary>
-    /// Tolerance for floating-point equality comparisons in geographical coordinates.
-    /// This tolerance of 1e-12 degrees provides approximately 0.1mm precision at the equator.
-    /// </summary>
-    private const double EQUALITY_TOLERANCE = 1e-12;
 
     public double Latitude => Coordinate[0];
     public double Longitude => Coordinate[1];
@@ -67,24 +63,7 @@ public class GeoDDCoordinate :
         => $"{_formatString(Latitude)}, {_formatString(Longitude)}";
 
     public override int GetHashCode()
-    {
-        // To maintain hash code consistency with tolerance-based equality,
-        // we use a coarser tolerance for hash code generation (1e-10 vs 1e-12 for equality).
-        // This ensures objects equal within EQUALITY_TOLERANCE have the same hash code
-        // while providing reasonable hash distribution for distinct coordinates.
-        const double HASH_TOLERANCE = 1e-10; // 100x coarser than equality tolerance
-        var quantizedLat = Math.Round(Latitude / HASH_TOLERANCE) * HASH_TOLERANCE;
-        var quantizedLon = Math.Round(Longitude / HASH_TOLERANCE) * HASH_TOLERANCE;
-
-        // Use a more compatible hash code combination for older frameworks
-        unchecked
-        {
-            var hash = 17;
-            hash = (hash * 23) + quantizedLat.GetHashCode();
-            hash = (hash * 23) + quantizedLon.GetHashCode();
-            return hash;
-        }
-    }
+        => HashCode.Combine(Latitude, Longitude);
     #endregion
 
 
@@ -103,9 +82,8 @@ public class GeoDDCoordinate :
             return false;
         }
 
-        // Use tolerance-based comparison for floating-point reliability
-        return Math.Abs(left.Latitude - right.Latitude) < EQUALITY_TOLERANCE
-            && Math.Abs(left.Longitude - right.Longitude) < EQUALITY_TOLERANCE;
+        return left.Latitude == right.Latitude &&
+               left.Longitude == right.Longitude;
     }
 
     public static bool operator !=(GeoDDCoordinate left, GeoDDCoordinate right)
@@ -299,5 +277,5 @@ public class GeoDDCoordinate :
 
 
     private static string _formatString(double degree)
-        => degree.ToString().Replace(",", ".");
+        => degree.ToString(CultureInfo.InvariantCulture);
 }

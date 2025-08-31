@@ -4,7 +4,7 @@ using Xunit;
 
 namespace PowerUtils.Geolocation.Tests.ExceptionsTests;
 
-public class InvalidCoordinateExceptionTests
+public sealed class InvalidCoordinateExceptionTests
 {
     [Fact]
     public void Validate_exception_message_of_InvalidCoordinateException()

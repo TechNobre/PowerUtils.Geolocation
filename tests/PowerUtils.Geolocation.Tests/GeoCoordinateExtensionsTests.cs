@@ -3,7 +3,7 @@ using Xunit;
 
 namespace PowerUtils.Geolocation.Tests;
 
-public class GeoCoordinateExtensionsTests
+public sealed class GeoCoordinateExtensionsTests
 {
     [Theory]
     [InlineData(37.165611, -8.545786, 38.737545, -9.370047, 189143)]

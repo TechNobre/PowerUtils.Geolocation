@@ -4,7 +4,7 @@ using Xunit;
 
 namespace PowerUtils.Geolocation.Tests.ExceptionsTests;
 
-public class MinLongitudeExceptionTests
+public sealed class MinLongitudeExceptionTests
 {
     [Fact]
     public void Validate_exception_message_of_MinLongitudeException()
