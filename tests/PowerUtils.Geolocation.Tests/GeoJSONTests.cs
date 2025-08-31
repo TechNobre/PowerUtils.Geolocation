@@ -3,7 +3,7 @@ using Xunit;
 
 namespace PowerUtils.Geolocation.Tests;
 
-public class GeoJSONTests
+public sealed class GeoJSONTests
 {
     [Fact]
     public void GeoDDCoordinate_Construct_GeoJSON()

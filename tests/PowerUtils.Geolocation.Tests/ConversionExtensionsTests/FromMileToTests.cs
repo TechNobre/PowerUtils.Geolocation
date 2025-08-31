@@ -4,7 +4,7 @@ using Xunit;
 
 namespace PowerUtils.Geolocation.Tests.ConversionExtensionsTests;
 
-public class FromMileToTests
+public sealed class FromMileToTests
 {
     [Theory]
     [InlineData(11423.457, 18384226)]
@@ -17,8 +17,7 @@ public class FromMileToTests
 
 
         // Assert
-        act.Should()
-            .Be(expected);
+        act.Should().Be(expected);
     }
 
     [Theory]
@@ -32,8 +31,7 @@ public class FromMileToTests
 
 
         // Assert
-        act.Should()
-            .Be(expected);
+        act.Should().Be(expected);
     }
 
     [Theory]
@@ -47,8 +45,7 @@ public class FromMileToTests
 
 
         // Assert
-        act.Should()
-            .Be(expected);
+        act.Should().Be(expected);
     }
 
     [Theory]
@@ -62,8 +59,7 @@ public class FromMileToTests
 
 
         // Assert
-        act.Should()
-            .Be(expected);
+        act.Should().Be(expected);
     }
 
     [Theory(DisplayName = "Converting double numbers in miles to kilometers")]
@@ -77,8 +73,7 @@ public class FromMileToTests
 
 
         // Assert
-        act.Should()
-            .Be(expected);
+        act.Should().Be(expected);
     }
 
     [Theory]
@@ -92,8 +87,7 @@ public class FromMileToTests
 
 
         // Assert
-        act.Should()
-            .Be(expected);
+        act.Should().Be(expected);
     }
 
     [Theory]
@@ -107,8 +101,7 @@ public class FromMileToTests
 
 
         // Assert
-        act.Should()
-            .Be(expected);
+        act.Should().Be(expected);
     }
 
     [Theory]
@@ -122,8 +115,7 @@ public class FromMileToTests
 
 
         // Assert
-        act.Should()
-            .Be(expected);
+        act.Should().Be(expected);
     }
 
     [Theory]
@@ -137,7 +129,6 @@ public class FromMileToTests
 
 
         // Assert
-        act.Should()
-            .Be(expected);
+        act.Should().Be(expected);
     }
 }

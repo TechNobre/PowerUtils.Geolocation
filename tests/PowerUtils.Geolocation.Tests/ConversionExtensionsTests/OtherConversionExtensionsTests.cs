@@ -4,7 +4,7 @@ using Xunit;
 
 namespace PowerUtils.Geolocation.Tests.ConversionExtensionsTests;
 
-public class OtherConversionExtensionsTests
+public sealed class OtherConversionExtensionsTests
 {
     [Theory]
     [InlineData(CardinalDirection.North, GeographicalOrientation.Longitude)]
@@ -18,8 +18,7 @@ public class OtherConversionExtensionsTests
 
 
         // Assert
-        act.Should()
-            .Be(expected);
+        act.Should().Be(expected);
     }
 
     [Theory]
@@ -33,8 +32,7 @@ public class OtherConversionExtensionsTests
 
 
         // Assert
-        act.Should()
-            .Be(radian);
+        act.Should().Be(radian);
     }
 
     [Theory]
@@ -48,7 +46,6 @@ public class OtherConversionExtensionsTests
 
 
         // Assert
-        act.Should()
-            .Be(degree);
+        act.Should().Be(degree);
     }
 }

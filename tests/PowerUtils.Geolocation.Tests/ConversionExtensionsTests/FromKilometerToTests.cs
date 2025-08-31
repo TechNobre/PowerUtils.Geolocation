@@ -4,7 +4,7 @@ using Xunit;
 
 namespace PowerUtils.Geolocation.Tests.ConversionExtensionsTests;
 
-public class FromKilometerToTests
+public sealed class FromKilometerToTests
 {
     [Theory]
     [InlineData(45, 45_000)]
@@ -17,8 +17,7 @@ public class FromKilometerToTests
 
 
         // Assert
-        act.Should()
-            .Be(expected);
+        act.Should().Be(expected);
     }
 
     [Theory]
@@ -32,8 +31,7 @@ public class FromKilometerToTests
 
 
         // Assert
-        act.Should()
-            .Be(expected);
+        act.Should().Be(expected);
     }
 
     [Theory]
@@ -47,8 +45,7 @@ public class FromKilometerToTests
 
 
         // Assert
-        act.Should()
-            .Be(expected);
+        act.Should().Be(expected);
     }
 
     [Theory]
@@ -62,8 +59,7 @@ public class FromKilometerToTests
 
 
         // Assert
-        act.Should()
-            .Be(expected);
+        act.Should().Be(expected);
     }
 
     [Theory]
@@ -77,8 +73,7 @@ public class FromKilometerToTests
 
 
         // Assert
-        act.Should()
-            .Be(expected);
+        act.Should().Be(expected);
     }
 
     [Theory]
@@ -92,8 +87,7 @@ public class FromKilometerToTests
 
 
         // Assert
-        act.Should()
-            .Be(expected);
+        act.Should().Be(expected);
     }
 
     [Theory]
@@ -107,8 +101,7 @@ public class FromKilometerToTests
 
 
         // Assert
-        act.Should()
-            .Be(expected);
+        act.Should().Be(expected);
     }
 
     [Theory]
@@ -122,8 +115,7 @@ public class FromKilometerToTests
 
 
         // Assert
-        act.Should()
-            .Be(expected);
+        act.Should().Be(expected);
     }
 
     [Theory]
@@ -137,8 +129,7 @@ public class FromKilometerToTests
 
 
         // Assert
-        act.Should()
-            .Be(expected);
+        act.Should().Be(expected);
     }
 
     [Theory]
@@ -152,8 +143,7 @@ public class FromKilometerToTests
 
 
         // Assert
-        act.Should()
-            .Be(expected);
+        act.Should().Be(expected);
     }
 
     [Theory]
@@ -167,8 +157,7 @@ public class FromKilometerToTests
 
 
         // Assert
-        act.Should()
-            .Be(expected);
+        act.Should().Be(expected);
     }
 
     [Theory]
@@ -182,8 +171,7 @@ public class FromKilometerToTests
 
 
         // Assert
-        act.Should()
-            .Be(expected);
+        act.Should().Be(expected);
     }
 
     [Theory]
@@ -197,7 +185,6 @@ public class FromKilometerToTests
 
 
         // Assert
-        act.Should()
-            .Be(expected);
+        act.Should().Be(expected);
     }
 }

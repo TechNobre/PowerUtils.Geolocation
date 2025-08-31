@@ -7,7 +7,7 @@ using Xunit;
 
 namespace PowerUtils.Geolocation.Tests.ConversionExtensionsTests;
 
-public class ToDDPointTests
+public sealed class ToDDPointTests
 {
     [Theory]
     [InlineData("40.601203", 40.601_203)]
