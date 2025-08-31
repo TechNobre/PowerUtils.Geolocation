@@ -80,11 +80,11 @@ namespace PowerUtils.Geolocation
             const double HASH_TOLERANCE = 1e-10; // 100x coarser than equality tolerance
             var quantizedLat = Math.Round(Latitude / HASH_TOLERANCE) * HASH_TOLERANCE;
             var quantizedLon = Math.Round(Longitude / HASH_TOLERANCE) * HASH_TOLERANCE;
-            
+
             // Use a more compatible hash code combination for older frameworks
             unchecked
             {
-                int hash = 17;
+                var hash = 17;
                 hash = hash * 23 + quantizedLat.GetHashCode();
                 hash = hash * 23 + quantizedLon.GetHashCode();
                 return hash;
@@ -266,8 +266,8 @@ namespace PowerUtils.Geolocation
         public static double Distance(double latitude1, double longitude1, double latitude2, double longitude2, int decimals = 0)
             => Math.Round(PreciseDistance(
                     latitude1, longitude1,
-                    latitude2, longitude2
-                ), decimals);
+                    latitude2, longitude2),
+                decimals);
 
         /// <summary>
         /// Calculate Distance between two coordinates (Meter) without round. Using the formula Haversine Formula.
