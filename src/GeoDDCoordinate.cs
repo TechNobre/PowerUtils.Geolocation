@@ -1,11 +1,6 @@
 ﻿using System;
 using PowerUtils.Geolocation.Exceptions;
-
-#if NETCOREAPP3_1_OR_GREATER
 using System.Text.Json.Serialization;
-#else
-using Newtonsoft.Json;
-#endif
 
 namespace PowerUtils.Geolocation
 {

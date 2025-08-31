@@ -14,8 +14,6 @@ env:
   SDK_VERSION_8: '8.0.404'
   SDK_VERSION_7: '7.0.410'
   SDK_VERSION_6: '6.0.428'
-  SDK_VERSION_5: '5.0.408'
-  SDK_VERSION_3: '3.1.426'
   COVERAGE_REPORT_DIRECTORY: 'CodeCoverageReports'
 
   # Set up the .NET environment to improve test performance and reliability
@@ -49,8 +47,6 @@ jobs:
           ${{ env.SDK_VERSION_8 }}
           ${{ env.SDK_VERSION_7 }}
           ${{ env.SDK_VERSION_6 }}
-          ${{ env.SDK_VERSION_5 }}
-          ${{ env.SDK_VERSION_3 }}
 
     - name: "Restore dependencies"
       run: dotnet restore
