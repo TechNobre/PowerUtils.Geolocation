@@ -20,7 +20,9 @@ public class ToDDPointTests
     [InlineData("-46.318918", -46.318_918)]
     [InlineData("-24", -24)]
     [InlineData("21", 21)]
-    [InlineData("24 234.4", 24_234.4)]
+    [InlineData("22 ", 22)]
+    [InlineData(" 31 ", 31)]
+    [InlineData(" 47", 47)]
     public void StringDegreeEnGB_ToDDPoint_Conversion(string coordinate, double expected)
     {
         // Arrange
@@ -34,8 +36,7 @@ public class ToDDPointTests
 
 
         // Assert
-        act.Should()
-            .Be(expected);
+        act.Should().Be(expected);
     }
 
     [Theory]
@@ -49,7 +50,9 @@ public class ToDDPointTests
     [InlineData("-46.318918", -46.318_918)]
     [InlineData("-24", -24)]
     [InlineData("21", 21)]
-    [InlineData("24 234.4", 24_234.4)]
+    [InlineData("22 ", 22)]
+    [InlineData(" 31 ", 31)]
+    [InlineData(" 47", 47)]
     public void StringDegreePtPT_ToDDPoint_Conversion(string coordinate, double expected)
     {
         // Arrange
@@ -63,8 +66,7 @@ public class ToDDPointTests
 
 
         // Assert
-        act.Should()
-            .Be(expected);
+        act.Should().Be(expected);
     }
 
     [Fact]
@@ -79,11 +81,8 @@ public class ToDDPointTests
 
 
         // Assert
-        act.Should()
-            .BeOfType<ArgumentNullException>()
-            .Which
-            .Message.Should()
-                .Be("The value cannot be null (Parameter 'ddPoint')");
+        act.Should().BeOfType<ArgumentNullException>()
+            .Which.Message.Should().Be("The value cannot be null (Parameter 'ddPoint')");
     }
 
     [Theory]
@@ -91,6 +90,9 @@ public class ToDDPointTests
     [InlineData("1.2.1")]
     [InlineData("1fx2.1")]
     [InlineData("")]
+    [InlineData(" 1 2 ")]
+    [InlineData("24 234.4")]
+    [InlineData(" 24 234.4 32c")]
     public void InvalidStringDegree_ToDDPoint_Exception(string coordinate)
     {
         // Arrange & Act
@@ -98,10 +100,7 @@ public class ToDDPointTests
 
 
         // Assert
-        act.Should()
-            .BeOfType<InvalidCoordinateException>()
-            .Which
-            .Message.Should()
-                .Be($"Coordinate '{coordinate}' is not formatted correctly");
+        act.Should().BeOfType<InvalidCoordinateException>()
+            .Which.Message.Should().Be($"Coordinate '{coordinate}' is not formatted correctly");
     }
 }
