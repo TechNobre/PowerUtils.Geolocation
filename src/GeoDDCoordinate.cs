@@ -85,9 +85,9 @@ public class GeoDDCoordinate :
         // Use a more compatible hash code combination for older frameworks
         unchecked
         {
-            int hash = 17;
-            hash = hash * 23 + quantizedLat.GetHashCode();
-            hash = hash * 23 + quantizedLon.GetHashCode();
+            var hash = 17;
+            hash = (hash * 23) + quantizedLat.GetHashCode();
+            hash = (hash * 23) + quantizedLon.GetHashCode();
             return hash;
         }
     }
