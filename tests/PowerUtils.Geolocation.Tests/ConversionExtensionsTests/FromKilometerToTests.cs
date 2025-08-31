@@ -157,7 +157,7 @@ public class FromKilometerToTests
     }
 
     [Theory]
-    [InlineData(2, DistanceUnit.kilometer, 2)]
+    [InlineData(2, DistanceUnit.Kilometer, 2)]
     [InlineData(2, DistanceUnit.Meter, 2_000)]
     [InlineData(2, DistanceUnit.Mile, 1.242_742)]
     public void DoubleKilometer_FromKilometerTo_Conversion(double kilometer, DistanceUnit distanceUnit, double expected)
@@ -172,7 +172,7 @@ public class FromKilometerToTests
     }
 
     [Theory]
-    [InlineData(2, DistanceUnit.kilometer, 2)]
+    [InlineData(2, DistanceUnit.Kilometer, 2)]
     [InlineData(2, DistanceUnit.Meter, 2_000)]
     [InlineData(2, DistanceUnit.Mile, 1.242_742)]
     public void DecimalKilometer_FromKilometerTo_Conversion(decimal kilometer, DistanceUnit distanceUnit, decimal expected)
@@ -187,7 +187,7 @@ public class FromKilometerToTests
     }
 
     [Theory]
-    [InlineData(2, DistanceUnit.kilometer, 2)]
+    [InlineData(2, DistanceUnit.Kilometer, 2)]
     [InlineData(2, DistanceUnit.Meter, 2_000)]
     [InlineData(2, DistanceUnit.Mile, 1.242_742)]
     public void FloatKilometer_FromKilometerTo_Conversion(float kilometer, DistanceUnit distanceUnit, float expected)

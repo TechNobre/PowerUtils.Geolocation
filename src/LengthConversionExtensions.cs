@@ -98,7 +98,7 @@ public static class LengthConversionExtensions
                 return length.FromKilometerToMeter();
             case DistanceUnit.Mile:
                 return length.FromKilometerToMile();
-            case DistanceUnit.kilometer:
+            case DistanceUnit.Kilometer:
             default:
                 return length;
         }
@@ -118,7 +118,7 @@ public static class LengthConversionExtensions
                 return length.FromKilometerToMeter();
             case DistanceUnit.Mile:
                 return length.FromKilometerToMile();
-            case DistanceUnit.kilometer:
+            case DistanceUnit.Kilometer:
             default:
                 return length;
         }
@@ -138,7 +138,7 @@ public static class LengthConversionExtensions
                 return length.FromKilometerToMeter();
             case DistanceUnit.Mile:
                 return length.FromKilometerToMile();
-            case DistanceUnit.kilometer:
+            case DistanceUnit.Kilometer:
             default:
                 return length;
         }
@@ -234,7 +234,7 @@ public static class LengthConversionExtensions
     {
         switch(unit)
         {
-            case DistanceUnit.kilometer:
+            case DistanceUnit.Kilometer:
                 return length.FromMeterToKilometer();
             case DistanceUnit.Mile:
                 return length.FromMeterToMile();
@@ -254,7 +254,7 @@ public static class LengthConversionExtensions
     {
         switch(unit)
         {
-            case DistanceUnit.kilometer:
+            case DistanceUnit.Kilometer:
                 return length.FromMeterToKilometer();
             case DistanceUnit.Mile:
                 return length.FromMeterToMile();
@@ -274,7 +274,7 @@ public static class LengthConversionExtensions
     {
         switch(unit)
         {
-            case DistanceUnit.kilometer:
+            case DistanceUnit.Kilometer:
                 return length.FromMeterToKilometer();
             case DistanceUnit.Mile:
                 return length.FromMeterToMile();
@@ -343,7 +343,7 @@ public static class LengthConversionExtensions
     {
         switch(unit)
         {
-            case DistanceUnit.kilometer:
+            case DistanceUnit.Kilometer:
                 return length.FromMileToKilometer();
             case DistanceUnit.Meter:
                 return length.FromMileToMeter();
@@ -363,7 +363,7 @@ public static class LengthConversionExtensions
     {
         switch(unit)
         {
-            case DistanceUnit.kilometer:
+            case DistanceUnit.Kilometer:
                 return length.FromMileToKilometer();
             case DistanceUnit.Meter:
                 return length.FromMileToMeter();
@@ -383,7 +383,7 @@ public static class LengthConversionExtensions
     {
         switch(unit)
         {
-            case DistanceUnit.kilometer:
+            case DistanceUnit.Kilometer:
                 return length.FromMileToKilometer();
             case DistanceUnit.Meter:
                 return length.FromMileToMeter();
