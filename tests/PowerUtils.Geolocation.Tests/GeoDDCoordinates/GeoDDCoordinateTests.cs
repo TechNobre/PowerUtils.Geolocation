@@ -18,18 +18,12 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
             // Act
             var act = new GeoDDCoordinate(
                 latitude,
-                longitude
-            );
+                longitude);
 
 
             // Assert
-            act.Latitude
-                .Should()
-                    .Be(latitude);
-
-            act.Longitude
-                .Should()
-                    .Be(longitude);
+            act.Latitude.Should().Be(latitude);
+            act.Longitude.Should().Be(longitude);
         }
 
         [Fact]
@@ -45,13 +39,8 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            act.Latitude
-                .Should()
-                    .Be(81.54);
-
-            act.Longitude
-                .Should()
-                    .Be(-54.1272);
+            act.Latitude.Should().Be(81.54);
+            act.Longitude.Should().Be(-54.1272);
         }
 
         [Fact]
@@ -62,10 +51,8 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            act.Should()
-                .BeOfType<ArgumentNullException>()
-                .Which.ParamName.Should()
-                    .Be("ddPoint");
+            act.Should().BeOfType<ArgumentNullException>()
+                .Which.ParamName.Should().Be("ddPoint");
         }
 
         [Fact]
@@ -76,10 +63,8 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            act.Should()
-                .BeOfType<ArgumentNullException>()
-                .Which.ParamName.Should()
-                    .Be("ddPoint");
+            act.Should().BeOfType<ArgumentNullException>()
+                .Which.ParamName.Should().Be("ddPoint");
         }
 
         [Fact]
@@ -90,8 +75,7 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            act.Should()
-                .BeOfType<MinLatitudeException>();
+            act.Should().BeOfType<MinLatitudeException>();
         }
 
         [Fact]
@@ -102,8 +86,7 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            act.Should()
-                .BeOfType<MaxLatitudeException>();
+            act.Should().BeOfType<MaxLatitudeException>();
         }
 
         [Fact]
@@ -114,8 +97,7 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            act.Should()
-                .BeOfType<MinLongitudeException>();
+            act.Should().BeOfType<MinLongitudeException>();
         }
 
         [Fact]
@@ -126,8 +108,7 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            act.Should()
-                .BeOfType<MaxLongitudeException>();
+            act.Should().BeOfType<MaxLongitudeException>();
         }
 
         [Fact]
@@ -145,11 +126,8 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            actLatitude.Should()
-                .Be(latitude);
-
-            actLongitude.Should()
-                .Be(longitude);
+            actLatitude.Should().Be(latitude);
+            actLongitude.Should().Be(longitude);
         }
 
         [Fact]
@@ -164,8 +142,7 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            act.Should()
-                .Be("12.152, -8.12");
+            act.Should().Be("12.152, -8.12");
         }
 
         [Fact]
@@ -181,8 +158,7 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            act.Should()
-                .BeTrue();
+            act.Should().BeTrue();
         }
 
         [Fact]
@@ -198,8 +174,7 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            act.Should()
-                .BeFalse();
+            act.Should().BeFalse();
         }
 
         [Fact]
@@ -214,8 +189,7 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            act.Should()
-                .Be("1.54, 5.1272");
+            act.Should().Be("1.54, 5.1272");
         }
 
         [Fact]
@@ -231,8 +205,7 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            act.Should()
-                .BeFalse();
+            act.Should().BeFalse();
         }
 
         [Fact]
@@ -248,8 +221,7 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            act.Should()
-                .BeTrue();
+            act.Should().BeTrue();
         }
 
         [Fact]
@@ -265,8 +237,7 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            act.Should()
-                .BeFalse();
+            act.Should().BeFalse();
         }
 
         [Fact]
@@ -282,8 +253,7 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            act.Should()
-                .BeFalse();
+            act.Should().BeFalse();
         }
 
 
@@ -300,8 +270,7 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            act.Should()
-                .BeTrue();
+            act.Should().BeTrue();
         }
 
         [Fact]
@@ -317,8 +286,7 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            act.Should()
-                .BeFalse();
+            act.Should().BeFalse();
         }
 
         [Fact]
@@ -334,8 +302,7 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            act.Should()
-                .BeTrue();
+            act.Should().BeTrue();
         }
 
 
@@ -352,8 +319,7 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            act.Should()
-                .BeFalse();
+            act.Should().BeFalse();
         }
 
         [Fact]
@@ -369,8 +335,7 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            act.Should()
-                .BeTrue();
+            act.Should().BeTrue();
         }
 
         [Fact]
@@ -386,8 +351,7 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            act.Should()
-                .BeFalse();
+            act.Should().BeFalse();
         }
 
         [Fact]
@@ -402,10 +366,8 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            act.Latitude.Should()
-                .Be(coordinate.Latitude);
-            act.Longitude.Should()
-                .Be(coordinate.Longitude);
+            act.Latitude.Should().Be(coordinate.Latitude);
+            act.Longitude.Should().Be(coordinate.Longitude);
         }
 
 
@@ -417,10 +379,8 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            act.Should()
-                .BeOfType<ArgumentNullException>()
-                .Which.ParamName.Should()
-                    .Be("coordinate");
+            act.Should().BeOfType<ArgumentNullException>()
+                .Which.ParamName.Should().Be("coordinate");
         }
 
         [Fact]
@@ -435,13 +395,8 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            act.Latitude
-                .Should()
-                    .Be(81.54);
-
-            act.Longitude
-                .Should()
-                    .Be(-54.1272);
+            act.Latitude.Should().Be(81.54);
+            act.Longitude.Should().Be(-54.1272);
         }
 
         [Fact]
@@ -456,8 +411,7 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            act.Should()
-                .BeOfType<InvalidCoordinateException>();
+            act.Should().BeOfType<InvalidCoordinateException>();
         }
 
         [Fact]
@@ -472,8 +426,7 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            act.Should()
-                .BeOfType<InvalidCoordinateException>();
+            act.Should().BeOfType<InvalidCoordinateException>();
         }
 
         [Fact]
@@ -488,13 +441,8 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            act.Latitude
-                .Should()
-                    .Be(-12.51214);
-
-            act.Longitude
-                .Should()
-                    .Be(14.1272);
+            act.Latitude.Should().Be(-12.51214);
+            act.Longitude.Should().Be(14.1272);
         }
 
         [Fact]
@@ -509,16 +457,9 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            act.Should()
-                .BeTrue();
-
-            result.Latitude
-                .Should()
-                    .Be(-12.51214);
-
-            result.Longitude
-                .Should()
-                    .Be(14.1272);
+            act.Should().BeTrue();
+            result.Latitude.Should().Be(-12.51214);
+            result.Longitude.Should().Be(14.1272);
         }
 
         [Fact]
@@ -533,11 +474,8 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            act.Should()
-                .BeFalse();
-
-            result.Should()
-                .BeNull();
+            act.Should().BeFalse();
+            result.Should().BeNull();
         }
 
         [Fact]
@@ -553,16 +491,9 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            act.Should()
-                .BeTrue();
-
-            result.Latitude
-                .Should()
-                    .Be(81.54);
-
-            result.Longitude
-                .Should()
-                    .Be(-54.1272);
+            act.Should().BeTrue();
+            result.Latitude.Should().Be(81.54);
+            result.Longitude.Should().Be(-54.1272);
         }
 
         [Fact]
@@ -578,11 +509,8 @@ namespace PowerUtils.Geolocation.Tests.GeoDDCoordinates
 
 
             // Assert
-            act.Should()
-                .BeFalse();
-
-            result.Should()
-                .BeNull();
+            act.Should().BeFalse();
+            result.Should().BeNull();
         }
     }
 }
