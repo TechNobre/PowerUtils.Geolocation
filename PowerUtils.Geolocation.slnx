@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="src/PowerUtils.Geolocation.csproj" />
+  <Project Path="tests/PowerUtils.Geolocation.Tests/PowerUtils.Geolocation.Tests.csproj" />
+</Solution>
