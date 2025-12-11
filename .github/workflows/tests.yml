@@ -37,10 +37,10 @@ jobs:
 
     steps:
     - name: "Checkout"
-      uses: actions/checkout@v5.0.0
+      uses: actions/checkout@v6.0.1
 
     - name: "Setup .NET"
-      uses: actions/setup-dotnet@v5.0.0
+      uses: actions/setup-dotnet@v5.0.1
       with:
         global-json-file: 'global.json'
         dotnet-version: |
@@ -58,7 +58,7 @@ jobs:
       run: dotnet test --configuration Release --no-build --verbosity normal --results-directory ${{ github.workspace }}/${{ env.COVERAGE_REPORT_DIRECTORY }} --collect:"XPlat Code Coverage"
 
     - name: "Combine Coverage Reports" # This is because one report is produced per project, and we want one result for all of them.
-      uses: danielpalme/ReportGenerator-GitHub-Action@dcdfb6e704e87df6b2ed0cf123a6c9f69e364869
+      uses: danielpalme/ReportGenerator-GitHub-Action@ee0ae774f6d3afedcbd1683c1ab21b83670bdf8e
       with:
         reports: "**/*.cobertura.xml" # REQUIRED # The coverage reports that should be parsed (separated by semicolon). Globbing is supported.
         targetdir: "${{ github.workspace }}" # REQUIRED # The directory where the generated report should be saved.
@@ -118,5 +118,4 @@ jobs:
       if: always()
       with:
         check_name: "Test Summary"
-        # NOTE: using trx_files instead of files due to https://github.com/EnricoMi/publish-unit-test-result-action/issues/424
-        trx_files: "${{ github.workspace }}/${{ env.COVERAGE_REPORT_DIRECTORY }}/**/*.trx"
+        files: "${{ github.workspace }}/${{ env.COVERAGE_REPORT_DIRECTORY }}/**/*.trx"
