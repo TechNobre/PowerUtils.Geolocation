@@ -60,6 +60,7 @@
 
 
 ## Support to <a name="support-to"></a>
+- .NET 10.0
 - .NET 9.0
 - .NET 8.0
 - .NET 7.0
