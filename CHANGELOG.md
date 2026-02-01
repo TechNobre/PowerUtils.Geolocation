@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/TechNobre/PowerUtils.Geolocation/compare/v2.0.0...v2.1.0) (2026-02-01)
+
+
+### Features
+
+* add support for .NET 10.0 ([a68cfe2](https://github.com/TechNobre/PowerUtils.Geolocation/commit/a68cfe2ac3bc15781108bc6b532bc277ece16cd9))
+
 # [2.0.0](https://github.com/TechNobre/PowerUtils.Geolocation/compare/v1.4.0...v2.0.0) (2025-08-31)
 
 
