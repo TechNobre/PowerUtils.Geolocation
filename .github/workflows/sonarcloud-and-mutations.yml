@@ -18,7 +18,7 @@ on:
 
 
 env:
-  FRAMEWORK_VERSION: 'net9.0'
+  FRAMEWORK_VERSION: 'net10.0'
 
   PROJECT_FILE: 'PowerUtils.Geolocation.csproj'
   TEST_PROJECT_PATH: 'tests/PowerUtils.Geolocation.Tests/PowerUtils.Geolocation.Tests.csproj'
