@@ -31,7 +31,7 @@ jobs:
 
     - name: "Semantic Release"
       id: 'semantic-release'
-      uses: cycjimmy/semantic-release-action@8be816a60e417d22b0e09b61adc23605036497eb
+      uses: cycjimmy/semantic-release-action@03595b5eaf44910cf239ff20904cc52d410f97d4
       with:
         semantic_version: 24.2.7
         extra_plugins: |
